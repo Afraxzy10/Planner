@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Academic Battle Plan — April 12 to July 2026</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #f5f5f0; color: #1a1a1a; font-size: 14px; }
+  h1 { font-size: 22px; font-weight: 700; padding: 24px 24px 4px; color: #1a1a1a; }
+  .subtitle { padding: 0 24px 20px; color: #666; font-size: 13px; }
+  .phase-tabs { display: flex; gap: 6px; flex-wrap: wrap; padding: 0 24px 20px; }
+  .tab { padding: 8px 16px; border: 1.5px solid #ccc; border-radius: 20px; font-size: 13px; cursor: pointer; background: white; font-weight: 500; transition: all 0.15s; }
+  .tab.active { background: #2a2a2a; color: white; border-color: #2a2a2a; }
+  .section { display: none; padding: 0 24px 40px; }
+  .section.active { display: block; }
+  .phase-header { background: #2a2a2a; color: white; border-radius: 12px; padding: 16px 20px; margin-bottom: 16px; }
+  .phase-title { font-size: 16px; font-weight: 700; }
+  .phase-meta { font-size: 12px; color: #aaa; margin-top: 4px; }
+  .warning-box { background: #fff3cd; border-left: 4px solid #f0ad4e; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; font-size: 13px; color: #7a5200; }
+  .tip-box { background: #d4edda; border-left: 4px solid #28a745; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; font-size: 13px; color: #155724; }
+  .day-card { background: white; border-radius: 12px; border: 1px solid #e0e0e0; margin-bottom: 12px; overflow: hidden; }
+  .day-header { padding: 12px 16px; background: #f8f8f6; border-bottom: 1px solid #e0e0e0; display: flex; justify-content: space-between; align-items: center; }
+  .day-name { font-weight: 700; font-size: 14px; }
+  .day-theme { font-size: 12px; color: #666; background: #ececec; padding: 3px 10px; border-radius: 20px; }
+  .block { display: flex; gap: 14px; padding: 10px 16px; border-bottom: 1px solid #f0f0f0; align-items: flex-start; }
+  .block:last-child { border-bottom: none; }
+  .time { font-size: 12px; color: #888; min-width: 100px; padding-top: 2px; font-weight: 500; }
+  .block-content { flex: 1; }
+  .badge { display: inline-block; font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 20px; margin-bottom: 4px; letter-spacing: 0.3px; }
+  .b-deep { background: #e8e0ff; color: #3d1cb3; }
+  .b-light { background: #d4f5e9; color: #0a5c3a; }
+  .b-rev { background: #d6eaff; color: #0a3d78; }
+  .b-prayer { background: #fff3cd; color: #7a5200; }
+  .b-buffer { background: #f0f0f0; color: #555; }
+  .b-rest { background: #ffe0e0; color: #8b0000; }
+  .b-record { background: #fce4ff; color: #5c0080; }
+  .block-text { font-size: 13px; color: #1a1a1a; line-height: 1.5; }
+  .block-sub { font-size: 12px; color: #888; margin-top: 2px; }
+  .total-hrs { font-size: 12px; font-weight: 700; color: #2a7a2a; background: #d4f5e9; padding: 2px 8px; border-radius: 10px; }
+  .priority-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+  .priority-table th { background: #2a2a2a; color: white; padding: 10px 12px; text-align: left; font-size: 13px; }
+  .priority-table td { padding: 10px 12px; border-bottom: 1px solid #eee; font-size: 13px; vertical-align: top; }
+  .priority-table tr:nth-child(even) td { background: #f9f9f9; }
+  .p1 { background: #ffe0e0; color: #8b0000; font-weight: 700; padding: 2px 8px; border-radius: 10px; font-size: 11px; }
+  .p2 { background: #fff3cd; color: #7a5200; font-weight: 700; padding: 2px 8px; border-radius: 10px; font-size: 11px; }
+  .p3 { background: #d6eaff; color: #0a3d78; font-weight: 700; padding: 2px 8px; border-radius: 10px; font-size: 11px; }
+  .p4 { background: #d4f5e9; color: #0a5c3a; font-weight: 700; padding: 2px 8px; border-radius: 10px; font-size: 11px; }
+  .checkpoint-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 20px; }
+  .cp { background: white; border: 1px solid #e0e0e0; border-radius: 10px; padding: 14px; }
+  .cp-date { font-size: 12px; font-weight: 700; color: #888; margin-bottom: 6px; }
+  .cp-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+  .cp-list { font-size: 12px; color: #555; line-height: 1.6; }
+  .risk { background: #fff0f0; border: 1px solid #ffcccc; border-radius: 10px; padding: 14px; margin-bottom: 12px; }
+  .risk-title { font-weight: 700; color: #8b0000; margin-bottom: 6px; font-size: 13px; }
+  .risk-body { font-size: 13px; color: #555; line-height: 1.6; }
+  .section-label { font-size: 16px; font-weight: 700; margin-bottom: 14px; color: #1a1a1a; border-left: 4px solid #2a2a2a; padding-left: 10px; }
+  @media print { .phase-tabs { display: none; } .section { display: block !important; } }
+</style>
+</head>
+<body>
+
+<h1>🎯 Academic Battle Plan</h1>
+<div class="subtitle">April 12, 2026 → July 2026 &nbsp;|&nbsp; Execution starts TOMORROW &nbsp;|&nbsp; Built for YOU</div>
+
+<div class="phase-tabs">
+  <button class="tab active" onclick="show('overview')">📋 Overview & Priority</button>
+  <button class="tab" onclick="show('phase1')">🔥 Phase 1: Apr 12–20 (NPTEL)</button>
+  <button class="tab" onclick="show('phase2')">📝 Phase 2: Apr 21–May 5 (Records + Lab)</button>
+  <button class="tab" onclick="show('phase3')">📚 Phase 3: Apr 21–May 6 (6th Sem Exams)</button>
+  <button class="tab" onclick="show('phase4')">🚀 Phase 4: Ongoing (DSA+IELTS+GATE)</button>
+  <button class="tab" onclick="show('checkpoints')">✅ Checkpoints & Risks</button>
+</div>
+
+<!-- OVERVIEW -->
+<div id="overview" class="section active">
+  <div class="section-label">Your Master Priority Map</div>
+  <div class="warning-box">
+    ⚠️ You have 7 parallel goals, 3 hard deadlines in 14 days, and college materials unread. This plan uses a <strong>PHASE LOCK system</strong> — each phase has ONE primary goal. Everything else runs on minimum maintenance mode. No multitasking on priorities.
+  </div>
+  <table class="priority-table">
+    <thead><tr><th>Priority</th><th>Goal</th><th>Deadline</th><th>Daily time</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td><span class="p1">P1 🔥</span></td><td>NPTEL Exams (HCI + BIA)</td><td>Apr 20 (exam), Apr 25 (proctored)</td><td>3–4 hrs</td><td>⚠️ 12 weeks of content, 9 days left</td></tr>
+      <tr><td><span class="p1">P1 🔥</span></td><td>Lab Records (3 records)</td><td>Apr 25</td><td>1–2 hrs/day in Phase 2</td><td>⚠️ Not started</td></tr>
+      <tr><td><span class="p2">P2</span></td><td>6th Sem Exams (5 subjects)</td><td>By May 6</td><td>2–3 hrs (from Apr 21)</td><td>⚠️ Materials unread</td></tr>
+      <tr><td><span class="p3">P3</span></td><td>DSA + Python + SQL</td><td>Ongoing (placement)</td><td>1 hr daily maintenance</td><td>🟡 Python basics known</td></tr>
+      <tr><td><span class="p3">P3</span></td><td>IELTS (Target Band 7)</td><td>Register by Mid July</td><td>45 min daily from May</td><td>🔴 Not started</td></tr>
+      <tr><td><span class="p4">P4</span></td><td>Mini Projects (portfolio)</td><td>Before Jan 2027</td><td>Weekends only</td><td>🔴 Not started</td></tr>
+      <tr><td><span class="p4">P4</span></td><td>GATE 2027</td><td>Feb 2027</td><td>Start July onwards</td><td>🔴 Not started</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-label">Daily Time Template (Weekdays)</div>
+  <div class="day-card">
+    <div class="block"><span class="time">5:00 – 7:00am</span><div class="block-content"><span class="badge b-deep">DEEP WORK</span><div class="block-text">Primary goal of the phase (NPTEL / 6th Sem / DSA)</div><div class="block-sub">Peak brain hours. Phone off. No notifications.</div></div></div>
+    <div class="block"><span class="time">7:00 – 8:00am</span><div class="block-content"><span class="badge b-light">LIGHT WORK</span><div class="block-text">Secondary task — vocab / revision / records</div></div></div>
+    <div class="block"><span class="time">8:00am – 5:00pm</span><div class="block-content"><span class="badge b-buffer">COLLEGE / FIXED</span><div class="block-text">College / fixed commitments. Carry a revision card.</div></div></div>
+    <div class="block"><span class="time">5:00 – 5:30pm</span><div class="block-content"><span class="badge b-buffer">RECOVERY</span><div class="block-text">Rest, eat, decompress. No study.</div></div></div>
+    <div class="block"><span class="time">5:30 – 8:00pm</span><div class="block-content"><span class="badge b-deep">DEEP WORK 2</span><div class="block-text">Secondary goal (records / IELTS / DSA practice)</div></div></div>
+    <div class="block"><span class="time">8:00 – 9:00pm</span><div class="block-content"><span class="badge b-rev">REVISION</span><div class="block-text">Review what you studied today. 10-question self-quiz.</div></div></div>
+    <div class="block"><span class="time">9:00pm+</span><div class="block-content"><span class="badge b-rest">SLEEP</span><div class="block-text">Hard stop. Sleep = memory consolidation.</div></div></div>
+  </div>
+</div>
+
+<!-- PHASE 1 -->
+<div id="phase1" class="section">
+  <div class="phase-header">
+    <div class="phase-title">🔥 Phase 1: April 12 – 20 | NPTEL CRUNCH MODE</div>
+    <div class="phase-meta">Primary: HCI + BIA exam prep &nbsp;|&nbsp; Secondary: Records starting &nbsp;|&nbsp; Maintenance: 1 hr DSA daily</div>
+  </div>
+  <div class="warning-box">⚠️ MATH: Each NPTEL course has 12 weeks × 4 videos × 45 min = ~36 hrs of content EACH. You have 9 days. Strategy: Watch at 1.5–2x speed, take bullet notes only, focus on quiz questions at end of each week. Target: complete 60–70% of each course — enough to pass.</div>
+
+  <!-- Apr 12 SAT -->
+  <div class="day-card">
+    <div class="day-header"><span class="day-name">Saturday, April 12</span><span class="day-theme">Theme: HCI Blitz — Weeks 1–3</span></div>
+    <div class="block"><span class="time">5:00 – 7:00am</span><div class="block-content"><span class="badge b-deep">DEEP WORK</span><div class="block-text">HCI — Watch Week 1 + Week 2 (4 videos each at 1.5x). Take bullet notes per video.</div><div class="block-sub">~3 hrs of content compressed to 2 hrs. Pause only for key definitions.</div></div></div>
+    <div class="block"><span class="time">7:00 – 8:00am</span><div class="block-content"><span class="badge b-light">LIGHT WORK</span><div class="block-text">HCI — Review your notes. Make a 1-page summary of Week 1–2 key concepts.</div></div></div>
+    <div class="block"><span class="time">9:00am – 12:00pm</span><div class="block-content"><span class="badge b-deep">DEEP WORK</span><div class="block-text">HCI — Watch Week 3 (4 videos). Take quiz at end of week 3.</div></div></div>
+    <div class="block"><span class="time">12:00 – 1:00pm</span><div class="block-content"><span class="badge b-buffer">BREAK</span><div class="block-text">Lunch + full rest. Walk outside for 15 min.</div></div></div>
+    <div class="block"><span class="time">1:00 – 4:00pm</span><div class="block-content"><span class="badge b-deep">DEEP WORK</span><div class="block-text">BIA — Watch Week 1 + Week 2 at 1.5x. Bullet notes.</div></div></div>
+    <div class="block"><span class="time">4:00 – 5:00pm</span><div class="block-content"><span class="badge b-buffer">BREAK</span></div></div>
+    <div class="block"><span class="time">5:00 – 7:00pm</span><div class="block-content"><span class="badge b-deep">DEEP WORK</span><div class="block-text">BIA — Watch Week 3. Take end-of-week quiz.</div></div></div>
+    <div class="block"><span class="time">7:00 – 8:00pm</span><div class="block-content"><span class="badge b-rev">REVISION</span><div class="block-text">Review ALL notes from today. Highlight 5 most important concepts per subject.</div></div></div>
+    <div class="block"><span class="time">8:00 – 9:00pm</span><div class="block-content"><span class="badge b-light">LIGHT WORK</span><div class="block-text">DSA — Python: solve 2 easy array problems on LeetCode/HackerRank.</div></div></div>
+  </div>
+
+  <!-- Apr 13 SUN -->
+  <div class="day-card">
+    <div class="day-header"><span class="day-name">Sunday, April 13</span><span class="day-theme">Theme: HCI Weeks 4–6 + BIA Weeks 4–6</span></div>
+    <div class="block"><span class="time">5:00 – 7:00am</span><div class="block-content"><span class="badge b-deep">DEEP WORK</span><div class="block-text">HCI — Week 4 + Week 5 (1.5x speed). Focus on UI design principles, Fitts' Law, mental models.</div></div></div>
+    <div class="block"><span class="time">7:00 – 8:00am</span><div class="block-content"><span class="badge b-rev">REVISION</span><div class="block-text">HCI — Quick quiz: cover notes and write 5 key points per week from memory.</div></div></div>
+    <div class="block"><span class="time">9:00am – 11:00am</span><div class="block-content"><span class="badge b-deep">DEEP WORK</span><div class="block-text">HCI — Week 6. Complete week 6 quiz.</div></div></div>
+    <div class="block"><span class="time">11:00am – 1:00pm</span><div class="block-content"><span class="badge b-deep">DEEP WORK</span><div class="block-text">BIA — Week 4 + Week 5 (1.5x). Focus on data warehousing, OLAP, ETL concepts.</div></div></div>
+    <div class="block"><span class="time">1:00 – 2:00pm</span><div class="block-content"><span class="badge b-buffer">BREAK</span><div class="block-text">Lunch + 30 min rest. No screens.</div></div></div>
+    <div class="block"><span class="time">2:00 – 4:00pm</span><div class="block-content"><span class="badge b-deep">DEEP WORK</span><div class="block-text">BIA — Week 6. Complete week 6 quiz.</div></div></div>
+    <div class="block"><span class="time">4:00 – 6:00pm</span><div class="block-content"><span class="badge b-record">RECORDS START</span><div class="block-text">Begin Record 1 — write neatly. Aim to complete at least 50% of Record 1 today.</div></div></div>
+    <div class="block"><span class="time">7:00 – 8:00pm</span><div class="block-content"><span class="badge b-rev">REVISION</span><div class="block-text">Full review of HCI Weeks 1–6 using your 1-page summary. Self-quiz.</div></div></div>
+    <div class="block"><span class="time">8:00 – 9:00pm</span><div class="block-content"><span class="badge b-light">LIGHT WORK</span><div class="block-text">DSA — Python: 2 easy problems. SQL: read basics (SELECT, WHERE, GROUP BY).</div></div></div>
+  </div>
+
+  <!-- Apr 14 MON -->
+  <div class="day-card">
+    <div class="day-header"><span class="day-name">Monday, April 14</span><span class="day-theme">Theme: HCI Weeks 7–8 + BIA Week 7</span><span class="total-hrs">~4.5 hrs study</span></div>
+    <div class="block"><span class="time">5:00 – 7:00am</span><div class="block-content"><span class="badge b-deep">DEEP WORK</span><div class="block-text">HCI — Week 7 + Week 8 at 1.5x. Focus on evaluation methods, usability testing, prototyping.</div></div></div>
+    <div class="block"><span class="time">7:00 – 8:00am</span><div class="block-content"><span class="badge b-record">RECORD</span><div class="block-text">Complete Record 1 remaining pages. Aim to finish by 8am.</div></div></div>
+    <div class="block"><span class="time">8:00am – 5:00pm</span><div class="block-content"><span class="badge b-buffer">COLLEGE</span><div class="block-text">Carry HCI 1-page notes. Revise during breaks / free periods.</div></div></div>
+    <div class="block"><span class="time">5:30 – 7:00pm</span><div class="block-content"><span class="badge b-deep">DEEP WORK</span><div class="block-text">BIA — Week 7 at 1.5x. Take quiz. Make notes on dashboards, KPIs, BI tools (Tableau/PowerBI concepts).</div></div></div>
+    <div class="block"><span class="time">7:00 – 8:00pm</span><div class="block-content"><span class="badge b-rev">REVISION</span><div class="block-text">HCI Weeks 7–8 self-quiz. Write answers from memory.</div></div></div>
+    <div class="block"><span class="time">8:00 – 9:00pm</span><div class="block-content"><span class="badge b-light">LIGHT WORK</span><div class="block-text">DSA: 1 easy problem. SQL: practice SELECT queries with conditions.</div></div></div>
+  </div>
+
+  <!-- Apr 15 TUE -->
+  <div class="day-card">
+    <div class="day-header"><span class="day-name">Tuesday, April 15</span><span class="day-theme">Theme: HCI Weeks 9–10 + BIA Week 8</span><span class="total-hrs">~4.5 hrs study</span></div>
+    <div class="block"><span class="time">5:00 – 7:00am</span><div class="block-content"><span class="badge b-deep">DEEP WORK</span><div class="block-text">HCI — Week 9 + Week 10. Focus on accessibility, HCI in mobile, voice interfaces.</div></div></div>
+    <div class="block"><span class="time">7:00 – 8:00am</span><div class="block-content"><span class="badge b-record">RECORD</span><div class="block-text">Begin Record 2 — first half.</div></div></div>
+    <div class="block"><span class="time">5:30 – 7:30pm</span><div class="block-content"><span class="badge b-deep">DEEP WORK</span><div class="block-text">BIA — Week 8 + 9. Focus on data mining, clustering, classification basics.</div></div></div>
+    <div class="block"><span class="time">7:30 – 8:30pm</span><div class="block-content"><span class="badge b-rev">REVISION</span><div class="block-text">BIA Weeks 7–9 — key formula/concept rapid review.</div></div></div>
+    <div class="block"><span class="time">8:30 – 9:00pm</span><div class="block-content"><span class="badge b-light">LIGHT WORK</span><div class="block-text">DSA: 1 easy problem (strings). SQL: JOIN practice.</div></div></div>
+  </div>
+
+  <!-- Apr 16 WED -->
+  <div class="day-card">
+    <div class="day-header"><span class="day-name">Wednesday, April 16</span><span class="day-theme">Theme: HCI Weeks 11–12 + BIA Week 10</span><span class="total-hrs">~4.5 hrs study</span></div>
+    <div class="block"><span class="time">5:00 – 7:00am</span><div class="block-content"><span class="badge b-deep">DEEP WORK</span><div class="block-text">HCI — Week 11 + Week 12. Finish the full course! Complete all end-of-week quizzes.</div></div></div>
+    <div class="block"><span class="time">7:00 – 8:00am</span><div class="block-content"><span class="badge b-rev">REVISION</span><div class="block-text">HCI full course 1-page master summary — write all key topics from memory.</div></div></div>
+    <div class="block"><span class="time">5:30 – 7:30pm</span><div class="block-content"><span class="badge b-deep">DEEP WORK</span><div class="block-text">BIA — Week 10 + 11. Predictive analytics, regression basics, reporting.</div></div></div>
+    <div class="block"><span class="time">7:30 – 8:30pm</span><div class="block-content"><span class="badge b-record">RECORD</span><div class="block-text">Complete Record 2 remaining pages.</div></div></div>
+    <div class="block"><span class="time">8:30 – 9:00pm</span><div class="block-content"><span class="badge b-light">LIGHT WORK</span><div class="block-text">DSA: 1 problem. SQL: GROUP BY + HAVING practice.</div></div></div>
+  </div>
+
+  <!-- Apr 17 THU -->
+  <div class="day-card">
+    <div class="day-header"><span class="day-name">Thursday, April 17</span><span class="day-theme">Theme: BIA Week 12 DONE + Full Revision Day</span><span class="total-hrs">~5 hrs study</span></div>
+    <div class="block"><span class="time">5:00 – 7:00am</span><div class="block-content"><span class="badge b-deep">DEEP WORK</span><div class="block-text">BIA — Week 12. Complete full course. All end-of-week quizzes done.</div></div></div>
+    <div class="block"><span class="time">7:00 – 8:00am</span><div class="block-content"><span class="badge b-rev">REVISION</span><div class="block-text">BIA full course 1-page master summary.</div></div></div>
+    <div class="block"><span class="time">5:30 – 7:30pm</span><div class="block-content"><span class="badge b-rev">REVISION</span><div class="block-text">HCI — go through all 1-page weekly summaries. Do mock quiz: 10 Q from each module.</div></div></div>
+    <div class="block"><span class="time">7:30 – 8:30pm</span><div class="block-content"><span class="badge b-record">RECORD</span><div class="block-text">Start Record 3 — aim to complete 50%.</div></div></div>
+    <div class="block"><span class="time">8:30 – 9:00pm</span><div class="block-content"><span class="badge b-light">LIGHT WORK</span><div class="block-text">DSA: 1 problem. Quick Python: functions review.</div></div></div>
+  </div>
+
+  <!-- Apr 18 FRI -->
+  <div class="day-card">
+    <div class="day-header"><span class="day-name">Friday, April 18</span><span class="day-theme">Theme: BIA Revision + Mock Exam Practice</span><span class="total-hrs">~5 hrs study</span></div>
+    <div class="block"><span class="time">5:00 – 7:00am</span><div class="block-content"><span class="badge b-rev">REVISION</span><div class="block-text">BIA — all 12-week summaries. Do previous year NPTEL assignment questions (find on NPTEL portal).</div></div></div>
+    <div class="block"><span class="time">7:00 – 8:00am</span><div class="block-content"><span class="badge b-record">RECORD</span><div class="block-text">Complete Record 3. ALL 3 RECORDS DONE TODAY ✅</div></div></div>
+    <div class="block"><span class="time">5:30 – 7:30pm</span><div class="block-content"><span class="badge b-rev">REVISION</span><div class="block-text">HCI — practice 25 NPTEL-style MCQs. Check answers. Note weak areas.</div></div></div>
+    <div class="block"><span class="time">7:30 – 9:00pm</span><div class="block-content"><span class="badge b-rev">REVISION</span><div class="block-text">BIA — practice 25 NPTEL-style MCQs. Check answers.</div></div></div>
+  </div>
+
+  <!-- Apr 19 SAT -->
+  <div class="day-card">
+    <div class="day-header"><span class="day-name">Saturday, April 19</span><span class="day-theme">Theme: FULL MOCK EXAM DAY</span></div>
+    <div class="block"><span class="time">5:00 – 7:00am</span><div class="block-content"><span class="badge b-deep">MOCK EXAM</span><div class="block-text">HCI — Simulate full exam: 50 MCQs in 90 min (timed, no notes). Grade yourself.</div></div></div>
+    <div class="block"><span class="time">7:00 – 8:00am</span><div class="block-content"><span class="badge b-rev">ANALYSIS</span><div class="block-text">Review wrong answers. Reread that week's notes. Write corrections.</div></div></div>
+    <div class="block"><span class="time">9:00 – 11:00am</span><div class="block-content"><span class="badge b-deep">MOCK EXAM</span><div class="block-text">BIA — Simulate full exam: 50 MCQs in 90 min (timed, no notes). Grade yourself.</div></div></div>
+    <div class="block"><span class="time">11:00am – 12:00pm</span><div class="block-content"><span class="badge b-rev">ANALYSIS</span><div class="block-text">Review wrong BIA answers. Correct and re-read.</div></div></div>
+    <div class="block"><span class="time">12:00 – 3:00pm</span><div class="block-content"><span class="badge b-buffer">FULL REST</span><div class="block-text">Mandatory. Eat well. Nap if needed. Walk outside.</div></div></div>
+    <div class="block"><span class="time">3:00 – 5:00pm</span><div class="block-content"><span class="badge b-rev">FINAL REVIEW</span><div class="block-text">Speed-run both master summaries. Highlight anything still unclear.</div></div></div>
+    <div class="block"><span class="time">5:00 – 7:00pm</span><div class="block-content"><span class="badge b-rev">WEAK AREAS</span><div class="block-text">Revisit only the topics you got wrong in mock exams. No new content.</div></div></div>
+    <div class="block"><span class="time">7:00pm+</span><div class="block-content"><span class="badge b-rest">REST</span><div class="block-text">Early dinner. Sleep by 9:30pm. Exam eve — rest is preparation.</div></div></div>
+  </div>
+
+  <!-- Apr 20 SUN -->
+  <div class="day-card">
+    <div class="day-header"><span class="day-name">Sunday, April 20</span><span class="day-theme">🎯 NPTEL EXAM DAY</span></div>
+    <div class="block"><span class="time">5:00 – 6:30am</span><div class="block-content"><span class="badge b-rev">LIGHT REVISION ONLY</span><div class="block-text">Read master summaries only. No new topics. No panic revision.</div></div></div>
+    <div class="block"><span class="time">6:30 – 8:00am</span><div class="block-content"><span class="badge b-buffer">PREP</span><div class="block-text">Breakfast, freshen up. Reach exam venue early (30 min before).</div></div></div>
+    <div class="block"><span class="time">EXAM TIME</span><div class="block-content"><span class="badge b-deep">NPTEL EXAM</span><div class="block-text">HCI + BIA Exams. You've done the work. Stay calm. Read questions twice.</div></div></div>
+    <div class="block"><span class="time">Post-exam</span><div class="block-content"><span class="badge b-rest">CELEBRATE + REST</span><div class="block-text">You earned it. Rest completely. Begin Phase 2 tomorrow.</div></div></div>
+  </div>
+</div>
+
+<!-- PHASE 2 -->
+<div id="phase2" class="section">
+  <div class="phase-header">
+    <div class="phase-title">📝 Phase 2: April 21 – May 5 | RECORDS + 6TH SEM LAUNCH</div>
+    <div class="phase-meta">Primary: Finish remaining records by Apr 25 &nbsp;|&nbsp; Begin: 6th Sem study &nbsp;|&nbsp; Continue: DSA daily</div>
+  </div>
+  <div class="tip-box">✅ If you finished records during Phase 1 as planned, Phase 2 is lighter. If not, first 3 days = records completion. Then pivot fully to 6th sem.</div>
+
+  <div class="day-card">
+    <div class="day-header"><span class="day-name">Apr 21 (Mon) – Apr 25 (Fri)</span><span class="day-theme">Records done + 6th Sem Subject 1 start</span></div>
+    <div class="block"><span class="time">5:00 – 7:00am</span><div class="block-content"><span class="badge b-deep">DEEP WORK</span><div class="block-text">6th Sem — Subject 1 (whichever has most chapters). Read Chapter 1 fully. Make handwritten notes.</div><div class="block-sub">Use PQ4R method: Preview → Question → Read → Reflect → Recite → Review</div></div></div>
+    <div class="block"><span class="time">7:00 – 8:00am</span><div class="block-content"><span class="badge b-record">RECORDS</span><div class="block-text">Complete any pending records. Submit by Apr 25 without fail.</div></div></div>
+    <div class="block"><span class="time">5:30 – 7:30pm</span><div class="block-content"><span class="badge b-deep">DEEP WORK</span><div class="block-text">6th Sem Subject 1 — Chapter 2. Make question bank from each chapter end.</div></div></div>
+    <div class="block"><span class="time">7:30 – 8:30pm</span><div class="block-content"><span class="badge b-light">LIGHT WORK</span><div class="block-text">DSA — 1 LeetCode problem (Easy). SQL — 1 practice query set.</div></div></div>
+    <div class="block"><span class="time">8:30 – 9:00pm</span><div class="block-content"><span class="badge b-rev">REVISION</span><div class="block-text">Review today's 6th sem notes. Self-quiz 5 questions.</div></div></div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-header"><span class="day-name">Apr 26 (Sat) – May 5 (Tue) — Weekends</span><span class="day-theme">6th Sem deep dive + IELTS kickoff</span></div>
+    <div class="block"><span class="time">5:00 – 8:00am</span><div class="block-content"><span class="badge b-deep">DEEP WORK</span><div class="block-text">6th Sem Subject 2 — complete 2 chapters. Detailed notes.</div></div></div>
+    <div class="block"><span class="time">9:00am – 12:00pm</span><div class="block-content"><span class="badge b-deep">DEEP WORK</span><div class="block-text">6th Sem Subject 3 — complete 2 chapters.</div></div></div>
+    <div class="block"><span class="time">1:00 – 3:00pm</span><div class="block-content"><span class="badge b-buffer">BREAK</span><div class="block-text">Full rest. Eat well. No screens.</div></div></div>
+    <div class="block"><span class="time">3:00 – 5:00pm</span><div class="block-content"><span class="badge b-light">IELTS KICKOFF</span><div class="block-text">IELTS: Start with Cambridge IELTS book. Do diagnostic test — identify your current band. Set a baseline score.</div><div class="block-sub">Focus areas: Reading + Writing first (highest impact for band 7)</div></div></div>
+    <div class="block"><span class="time">5:00 – 7:00pm</span><div class="block-content"><span class="badge b-deep">DEEP WORK</span><div class="block-text">DSA — Arrays complete: solve 5 problems (mix easy + medium). Review solutions.</div></div></div>
+    <div class="block"><span class="time">7:00 – 9:00pm</span><div class="block-content"><span class="badge b-rev">FULL REVISION</span><div class="block-text">Review all 6th sem chapters covered this week. Make chapter-wise flashcards.</div></div></div>
+  </div>
+</div>
+
+<!-- PHASE 3 -->
+<div id="phase3" class="section">
+  <div class="phase-header">
+    <div class="phase-title">📚 Phase 3: April 21 – May 6 | 6TH SEM EXAM DOMINATION</div>
+    <div class="phase-meta">Primary: 5 subjects, all chapters — exams by May 6 &nbsp;|&nbsp; Parallel: DSA + IELTS daily &nbsp;|&nbsp; Weekend: Mini project start</div>
+    <div class="phase-meta">Primary: 5 subjects, all chapters &nbsp;|&nbsp; Parallel: DSA + IELTS daily &nbsp;|&nbsp; Weekend: Mini project start</div>
+  </div>
+  <div class="tip-box">You have ~10 weeks for 5 subjects. That's 2 weeks per subject for deep study + 2 weeks before exam for full revision. This is very doable.</div>
+
+  <div class="day-card">
+    <div class="day-header"><span class="day-name">Week 1 (Apr 21–27): Subject 1 + Subject 2</span><span class="day-theme">2 subjects, chapter by chapter</span></div>
+    <div class="block"><span class="time">5:00 – 7:00am</span><div class="block-content"><span class="badge b-deep">DEEP WORK</span><div class="block-text">Subject 1 — 1 chapter/day. Use PQ4R. Write summary questions at end of every chapter.</div></div></div>
+    <div class="block"><span class="time">7:00 – 8:00am</span><div class="block-content"><span class="badge b-light">IELTS</span><div class="block-text">IELTS — 20 vocabulary words OR 1 reading passage (timed). Alternate daily.</div></div></div>
+    <div class="block"><span class="time">5:30 – 6:30pm</span><div class="block-content"><span class="badge b-light">DSA</span><div class="block-text">DSA — 1 LeetCode problem (slowly increase to medium). SQL: 1 practice set.</div></div></div>
+    <div class="block"><span class="time">6:30 – 8:00pm</span><div class="block-content"><span class="badge b-deep">DEEP WORK</span><div class="block-text">Subject 2 — 1 chapter/day (parallel track).</div></div></div>
+    <div class="block"><span class="time">8:00 – 9:00pm</span><div class="block-content"><span class="badge b-rev">REVISION</span><div class="block-text">Review both subjects' chapters done today. 5 Q self-quiz each.</div></div></div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-header"><span class="day-name">Week 2 (Apr 28–May 1): Subject 3 + Subject 4</span><span class="day-theme">Same pattern, increase DSA difficulty</span></div>
+    <div class="block"><span class="time">5:00 – 7:00am</span><div class="block-content"><span class="badge b-deep">DEEP WORK</span><div class="block-text">Subject 3 — 1 chapter/day deep study.</div></div></div>
+    <div class="block"><span class="time">7:00 – 8:00am</span><div class="block-content"><span class="badge b-light">IELTS</span><div class="block-text">IELTS Writing practice: Task 2 essay (1 per week). Get AI feedback or self-evaluate using band descriptors.</div></div></div>
+    <div class="block"><span class="time">5:30 – 6:30pm</span><div class="block-content"><span class="badge b-light">DSA</span><div class="block-text">DSA — medium problems (linked lists, stacks, queues). Python: OOP concepts.</div></div></div>
+    <div class="block"><span class="time">6:30 – 8:00pm</span><div class="block-content"><span class="badge b-deep">DEEP WORK</span><div class="block-text">Subject 4 — 1 chapter/day.</div></div></div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-header"><span class="day-name">Week 3 (May 2–5): Subject 5 + Full Revision Start</span><span class="day-theme">Final subject + begin cross-revision</span></div>
+    <div class="block"><span class="time">5:00 – 7:00am</span><div class="block-content"><span class="badge b-deep">DEEP WORK</span><div class="block-text">Subject 5 — complete all chapters by Jun 7. Make master one-pagers per subject.</div></div></div>
+    <div class="block"><span class="time">6:30 – 8:00pm</span><div class="block-content"><span class="badge b-rev">REVISION</span><div class="block-text">Revise Subject 1 from your one-pager. Attempt 20 previous year questions.</div></div></div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-header"><span class="day-name">May 6 onwards: Post-Exam — IELTS Deep Dive + DSA + GATE Launch</span><span class="day-theme">6th Sem done! Now focus long-term goals</span></div>
+    <div class="block"><span class="time">5:00 – 7:00am</span><div class="block-content"><span class="badge b-rev">REVISION</span><div class="block-text">Revise 1 subject completely using one-pager + chapter summaries + PYQs. Timed.</div></div></div>
+    <div class="block"><span class="time">7:00 – 8:00am</span><div class="block-content"><span class="badge b-light">IELTS</span><div class="block-text">IELTS — full timed reading or listening mock. Score and analyse.</div></div></div>
+    <div class="block"><span class="time">5:30 – 6:30pm</span><div class="block-content"><span class="badge b-light">DSA</span><div class="block-text">DSA — medium/hard problems. SQL: complex joins + subqueries. Python: file handling, exceptions.</div></div></div>
+    <div class="block"><span class="time">6:30 – 8:30pm</span><div class="block-content"><span class="badge b-rev">REVISION</span><div class="block-text">Second subject revision for the week. PYQ 20 questions.</div></div></div>
+    <div class="block"><span class="time">Weekend special</span><div class="block-content"><span class="badge b-deep">MINI PROJECT</span><div class="block-text">4 hrs/weekend on portfolio project. Build 1 Python/SQL project (e.g., data analysis dashboard). Document on GitHub.</div></div></div>
+  </div>
+</div>
+
+<!-- PHASE 4 -->
+<div id="phase4" class="section">
+  <div class="phase-header">
+    <div class="phase-title">🚀 Phase 4: Ongoing Daily Progression (DSA + IELTS + GATE)</div>
+    <div class="phase-meta">Runs parallel across all phases &nbsp;|&nbsp; Builds your future &nbsp;|&nbsp; Never skip these daily minimums</div>
+  </div>
+
+  <div class="section-label" style="margin-top:0;">DSA Roadmap (Python-first)</div>
+  <table class="priority-table">
+    <thead><tr><th>Month</th><th>DSA Topic</th><th>Python Topic</th><th>SQL Topic</th><th>Daily time</th></tr></thead>
+    <tbody>
+      <tr><td>Apr 12–30</td><td>Arrays, Strings (10 problems)</td><td>Functions, Lists</td><td>SELECT, WHERE, GROUP BY</td><td>45 min</td></tr>
+      <tr><td>May</td><td>Linked Lists, Stacks, Queues</td><td>OOP basics</td><td>JOINs, Subqueries</td><td>1 hr</td></tr>
+      <tr><td>June</td><td>Trees, Binary Search</td><td>File I/O, Exceptions</td><td>Window functions, CTEs</td><td>1 hr</td></tr>
+      <tr><td>July</td><td>Graphs, Recursion, DP intro</td><td>Pandas, NumPy basics</td><td>Stored procedures, Indexes</td><td>1.5 hrs</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-label">IELTS Roadmap (Target: Band 7)</div>
+  <table class="priority-table">
+    <thead><tr><th>Phase</th><th>Focus</th><th>Daily task</th><th>Weekly task</th></tr></thead>
+    <tbody>
+      <tr><td>May–Jun</td><td>Reading + Vocabulary</td><td>1 passage timed + 20 words</td><td>1 Task 2 writing</td></tr>
+      <tr><td>Jul</td><td>Writing + Speaking</td><td>Writing practice + speaking recording</td><td>Full mock test</td></tr>
+      <tr><td>Register by Mid July</td><td>All 4 skills</td><td>Full timed mock</td><td>Score review + weak area fix</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-label">GATE 2027 Launch Plan (Start July)</div>
+  <table class="priority-table">
+    <thead><tr><th>Period</th><th>Action</th></tr></thead>
+    <tbody>
+      <tr><td>July 2026</td><td>Choose GATE paper (CS/IT recommended). Download syllabus. Buy standard books.</td></tr>
+      <tr><td>Aug–Oct 2026</td><td>Cover core subjects (DS, Algorithms, OS, DBMS, CN) — 2 hrs/day</td></tr>
+      <tr><td>Nov–Dec 2026</td><td>Engineering Maths + Aptitude + PYQ practice — 3 hrs/day</td></tr>
+      <tr><td>Jan 2027</td><td>Apply for Masters programs. Full mock tests. Revision only.</td></tr>
+      <tr><td>Feb 2027</td><td>GATE 2027 Exam ✅</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-label">Mini Projects for Portfolio (for Masters 2027)</div>
+  <table class="priority-table">
+    <thead><tr><th>Project</th><th>Stack</th><th>Target completion</th></tr></thead>
+    <tbody>
+      <tr><td>Data Analysis Dashboard</td><td>Python + Pandas + Matplotlib</td><td>June 2026</td></tr>
+      <tr><td>SQL Business Report</td><td>MySQL + Python</td><td>July 2026</td></tr>
+      <tr><td>HCI-inspired Web App</td><td>HTML/CSS/JS or Flask</td><td>Aug 2026</td></tr>
+      <tr><td>ML Mini Project</td><td>Scikit-learn + Python</td><td>Oct 2026</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- CHECKPOINTS -->
+<div id="checkpoints" class="section">
+  <div class="section-label">Weekly Checkpoints — Did You Win This Week?</div>
+  <div class="checkpoint-grid">
+    <div class="cp"><div class="cp-date">Apr 20</div><div class="cp-title">NPTEL ✅</div><div class="cp-list">Both HCI + BIA courses watched<br>Mock exams done<br>3 records complete<br>10 DSA problems solved</div></div>
+    <div class="cp"><div class="cp-date">Apr 30</div><div class="cp-title">Phase 2 ✅</div><div class="cp-list">Records submitted<br>6th Sem: 2 subjects, 2 chapters each read<br>IELTS diagnostic done<br>DSA: arrays + strings complete</div></div>
+    <div class="cp"><div class="cp-date">May 31</div><div class="cp-title">6th Sem Launch ✅</div><div class="cp-list">4 subjects fully read<br>IELTS: baseline band measured<br>DSA: linked lists done<br>SQL: joins mastered</div></div>
+    <div class="cp"><div class="cp-date">May 6</div><div class="cp-title">6th Sem Done ✅</div><div class="cp-list">All 5 subjects fully studied<br>PYQ done for each subject<br>IELTS baseline set<br>15+ DSA problems solved</div></div>
+    <div class="cp"><div class="cp-date">Mid July</div><div class="cp-title">IELTS Ready ✅</div><div class="cp-list">IELTS registered<br>4 full mock tests done<br>Band 7 target on track<br>GATE plan launched</div></div>
+  </div>
+
+  <div class="section-label">Daily Non-Negotiables (Every Single Day)</div>
+  <div class="day-card">
+    <div class="block"><span class="time">Every morning</span><div class="block-content"><span class="badge b-deep">MUST DO</span><div class="block-text">Study 5:00–7:00am without phone. This is your most valuable 2 hours.</div></div></div>
+    <div class="block"><span class="time">Every evening</span><div class="block-content"><span class="badge b-light">MUST DO</span><div class="block-text">1 DSA problem — no excuses, even if it's just 1 easy question.</div></div></div>
+    <div class="block"><span class="time">Before sleep</span><div class="block-content"><span class="badge b-rev">MUST DO</span><div class="block-text">5 min recap — what did I learn today? Write it in 3 bullet points.</div></div></div>
+    <div class="block"><span class="time">Every Sunday</span><div class="block-content"><span class="badge b-buffer">MUST DO</span><div class="block-text">Review weekly checkpoint. Adjust next week's plan. Never skip this.</div></div></div>
+  </div>
+
+  <div class="section-label">Risk Warnings</div>
+  <div class="risk"><div class="risk-title">🔴 Risk 1: NPTEL content overload</div><div class="risk-body">12 weeks × 2 courses = 72 hrs of video. You have 9 days. You MUST watch at 1.5–2x speed and take only bullet notes — not detailed notes. If you try to watch at 1x and take full notes, you will run out of time. Speed is the strategy here.</div></div>
+  <div class="risk"><div class="risk-title">🔴 Risk 2: 6th Sem — never read materials, exams by May 6</div><div class="risk-body">Starting from zero with 5 subjects and exams by May 6 is CRITICAL pressure. You have roughly 2 weeks after NPTEL (Apr 21–May 5). You must start Chapter 1 of Subject 1 on April 21 without a single day of delay. Every subject needs at least 2–3 days of focused reading. Start the moment NPTEL exams are done.</div></div>
+  <div class="risk"><div class="risk-title">🟡 Risk 3: Trying to do everything daily</div><div class="risk-body">You cannot give 100% to 7 goals simultaneously. This plan uses phase locking — in Phase 1, NPTEL is 80% of energy. DSA gets 20% (maintenance). Trying to balance equally = failing at everything.</div></div>
+  <div class="risk"><div class="risk-title">🟡 Risk 4: IELTS — zero start, Band 7 target</div><div class="risk-body">Band 7 from zero needs minimum 3–4 months of consistent daily practice. If you start in May and register in July, that's tight but possible IF you practice writing + reading daily. Vocabulary is the fastest lever — start 20 words/day from Day 1.</div></div>
+  <div class="risk"><div class="risk-title">🟢 Strength: Python basics known</div><div class="risk-body">This is your biggest advantage for DSA + placements. You're not starting from zero. Build on this immediately — transition from basic Python to DSA problems using Python from Day 1.</div></div>
+</div>
+
+<script>
+function show(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>
