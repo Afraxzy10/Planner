@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semester Exam Battle Plan — Top The Exam</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Epilogue:wght@300;400;500;600&family=Epilogue:ital@1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0f;
+  --surface: #12121a;
+  --surface2: #1a1a26;
+  --border: #2a2a3d;
+  --text: #e8e6f0;
+  --muted: #6b6880;
+  --eiot: #f97316;
+  --eiot-dim: rgba(249,115,22,0.12);
+  --ke: #22d3ee;
+  --ke-dim: rgba(34,211,238,0.12);
+  --rs: #a78bfa;
+  --rs-dim: rgba(167,139,250,0.12);
+  --nndl: #34d399;
+  --nndl-dim: rgba(52,211,153,0.12);
+  --sta: #f43f5e;
+  --sta-dim: rgba(244,63,94,0.12);
+  --gold: #fbbf24;
+  --gold-dim: rgba(251,191,36,0.1);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Epilogue', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; font-size: 14px; }
+
+/* HEADER */
+.hero {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 36px 32px 28px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -80px; right: -80px;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(251,191,36,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-top { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+.hero-label { font-family: 'Syne', sans-serif; font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+.hero h1 { font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800; line-height: 1.1; }
+.hero h1 em { font-style: normal; color: var(--gold); }
+.hero-sub { color: var(--muted); font-size: 13px; margin-top: 8px; }
+.subject-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+.chip {
+  display: flex; align-items: center; gap: 7px;
+  padding: 6px 12px; border-radius: 4px;
+  font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700;
+  letter-spacing: 0.5px; border: 1px solid;
+}
+.chip-eiot { color: var(--eiot); background: var(--eiot-dim); border-color: rgba(249,115,22,0.25); }
+.chip-ke   { color: var(--ke);   background: var(--ke-dim);   border-color: rgba(34,211,238,0.25); }
+.chip-rs   { color: var(--rs);   background: var(--rs-dim);   border-color: rgba(167,139,250,0.25); }
+.chip-nndl { color: var(--nndl); background: var(--nndl-dim); border-color: rgba(52,211,153,0.25); }
+.chip-sta  { color: var(--sta);  background: var(--sta-dim);  border-color: rgba(244,63,94,0.25); }
+.chip-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+/* COUNTDOWN STRIP */
+.countdown {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  border-bottom: 1px solid var(--border);
+}
+.cd-item {
+  padding: 14px 16px;
+  border-right: 1px solid var(--border);
+  text-align: center;
+}
+.cd-item:last-child { border-right: none; }
+.cd-date { font-family: 'Syne', sans-serif; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+.cd-subject { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 800; margin-bottom: 3px; }
+.cd-days { font-size: 11px; color: var(--muted); }
+.cd-days strong { font-weight: 700; }
+
+/* TABS */
+.tabs {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  display: flex; gap: 0;
+  overflow-x: auto;
+  position: sticky; top: 0; z-index: 100;
+}
+.tab {
+  padding: 13px 18px;
+  background: none; border: none;
+  font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 600;
+  letter-spacing: 0.5px;
+  color: var(--muted); cursor: pointer;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+.tab:hover { color: var(--text); }
+.tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+/* CONTENT */
+.content { max-width: 960px; margin: 0 auto; padding: 32px 24px 80px; }
+.section { display: none; }
+.section.active { display: block; }
+
+/* PHASE LABEL */
+.phase-label {
+  font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 800;
+  letter-spacing: 4px; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 16px;
+  display: flex; align-items: center; gap: 10px;
+}
+.phase-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+/* ALERT BOX */
+.alert { border-radius: 6px; padding: 14px 18px; margin-bottom: 20px; border-left: 3px solid; }
+.alert-red   { background: rgba(244,63,94,0.08);   border-color: var(--sta);  color: #fda4af; }
+.alert-gold  { background: var(--gold-dim);         border-color: var(--gold); color: #fde68a; }
+.alert-green { background: rgba(52,211,153,0.08);   border-color: var(--nndl); color: #6ee7b7; }
+.alert strong { font-weight: 700; display: block; margin-bottom: 3px; font-family: 'Syne', sans-serif; font-size: 12px; letter-spacing: 0.5px; }
+.alert p { font-size: 12px; line-height: 1.6; }
+
+/* WEEK BLOCK */
+.week-block { margin-bottom: 28px; }
+.week-title {
+  font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 800;
+  padding: 12px 16px;
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 6px 6px 0 0;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.week-range { font-size: 11px; font-weight: 400; color: var(--muted); font-family: 'Epilogue', sans-serif; }
+
+/* DAY CARD */
+.day-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: none;
+}
+.day-card:last-child { border-radius: 0 0 6px 6px; }
+.day-row {
+  display: grid;
+  grid-template-columns: 110px 80px 1fr;
+  border-bottom: 1px solid var(--border);
+  min-height: 0;
+}
+.day-row:last-child { border-bottom: none; }
+.day-cell {
+  padding: 12px 16px;
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; justify-content: flex-start;
+}
+.day-cell:last-child { border-right: none; }
+.day-name { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 800; color: var(--text); }
+.day-date { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.subject-tag {
+  font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 800;
+  letter-spacing: 1px; padding: 4px 8px; border-radius: 3px;
+  align-self: flex-start; margin-top: 2px;
+}
+.tasks-cell { padding: 12px 16px; }
+
+/* TASK ROW */
+.task { display: flex; gap: 12px; padding: 6px 0; border-bottom: 1px dashed rgba(255,255,255,0.05); align-items: flex-start; }
+.task:last-child { border-bottom: none; }
+.task-time { font-family: 'Syne', sans-serif; font-size: 10px; color: var(--gold); min-width: 64px; font-weight: 700; padding-top: 2px; letter-spacing: 0.5px; }
+.task-body { flex: 1; }
+.task-title { font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.4; }
+.task-note { font-size: 11px; color: var(--muted); margin-top: 3px; font-style: italic; line-height: 1.5; }
+.type-badge {
+  display: inline-block; font-size: 9px; font-weight: 800;
+  letter-spacing: 1px; text-transform: uppercase;
+  padding: 2px 7px; border-radius: 2px; margin-right: 6px;
+}
+.t-read  { background: rgba(34,211,238,0.15); color: var(--ke); }
+.t-rev   { background: rgba(167,139,250,0.15); color: var(--rs); }
+.t-prac  { background: rgba(52,211,153,0.15);  color: var(--nndl); }
+.t-break { background: rgba(107,104,128,0.15); color: var(--muted); }
+.t-exam  { background: rgba(251,191,36,0.2);   color: var(--gold); }
+.t-mock  { background: rgba(244,63,94,0.15);   color: var(--sta); }
+
+/* EXAM DAY CARD */
+.exam-day-card {
+  background: var(--gold-dim);
+  border: 1px solid rgba(251,191,36,0.3);
+  border-radius: 6px;
+  padding: 16px 20px;
+  margin-bottom: 6px;
+  display: flex; align-items: center; gap: 16px;
+}
+.exam-day-icon { font-size: 28px; }
+.exam-day-title { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 800; color: var(--gold); }
+.exam-day-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
+
+/* UNITS TABLE */
+.units-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+.units-table th {
+  background: var(--surface2);
+  font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 800;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--muted); padding: 10px 14px; text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.units-table td { padding: 10px 14px; border-bottom: 1px solid var(--border); font-size: 13px; vertical-align: top; }
+.units-table tr:last-child td { border-bottom: none; }
+.days-left { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; }
+
+/* STRATEGY CARDS */
+.strategy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+.strategy-card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 16px; }
+.strategy-card-title { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 800; margin-bottom: 8px; }
+.strategy-item { font-size: 12px; color: var(--muted); padding: 4px 0; border-bottom: 1px dashed var(--border); line-height: 1.5; }
+.strategy-item:last-child { border-bottom: none; }
+
+/* PROGRESS BAR */
+.prog-bar { background: var(--border); border-radius: 2px; height: 4px; margin-top: 6px; }
+.prog-fill { height: 4px; border-radius: 2px; }
+
+@media (max-width: 640px) {
+  .day-row { grid-template-columns: 1fr; }
+  .day-cell { border-right: none; border-bottom: 1px solid var(--border); }
+  .countdown { grid-template-columns: repeat(3, 1fr); }
+  .strategy-grid { grid-template-columns: 1fr; }
+  .hero h1 { font-size: 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-label">Semester Exam War Room</div>
+  <div class="hero-top">
+    <div>
+      <h1>Top The Exam.<br><em>Day by Day.</em></h1>
+      <p class="hero-sub">April 24 → June 5 &nbsp;·&nbsp; 5 subjects &nbsp;·&nbsp; Materials never read &nbsp;·&nbsp; Starting NOW</p>
+    </div>
+  </div>
+  <div class="subject-chips">
+    <div class="chip chip-eiot"><div class="chip-dot" style="background:var(--eiot)"></div>MAY 20 — Embedded Systems & IoT</div>
+    <div class="chip chip-ke"><div class="chip-dot" style="background:var(--ke)"></div>MAY 25 — Knowledge Engineering</div>
+    <div class="chip chip-rs"><div class="chip-dot" style="background:var(--rs)"></div>MAY 27 — Recommender Systems</div>
+    <div class="chip chip-nndl"><div class="chip-dot" style="background:var(--nndl)"></div>MAY 30 — Neural Networks & Deep Learning</div>
+    <div class="chip chip-sta"><div class="chip-dot" style="background:var(--sta)"></div>JUNE 5 — Software Testing & Automation</div>
+  </div>
+</div>
+
+<!-- COUNTDOWN STRIP -->
+<div class="countdown">
+  <div class="cd-item"><div class="cd-date">May 20</div><div class="cd-subject" style="color:var(--eiot)">EIOT</div><div class="cd-days"><strong>26</strong> days</div></div>
+  <div class="cd-item"><div class="cd-date">May 25</div><div class="cd-subject" style="color:var(--ke)">KE</div><div class="cd-days"><strong>31</strong> days</div></div>
+  <div class="cd-item"><div class="cd-date">May 27</div><div class="cd-subject" style="color:var(--rs)">RS</div><div class="cd-days"><strong>33</strong> days</div></div>
+  <div class="cd-item"><div class="cd-date">May 30</div><div class="cd-subject" style="color:var(--nndl)">NNDL</div><div class="cd-days"><strong>36</strong> days</div></div>
+  <div class="cd-item"><div class="cd-date">Jun 5</div><div class="cd-subject" style="color:var(--sta)">STA</div><div class="cd-days"><strong>42</strong> days</div></div>
+</div>
+
+<!-- TABS -->
+<nav class="tabs">
+  <button class="tab active" onclick="show('overview')">Overview</button>
+  <button class="tab" onclick="show('phase1')">Apr 24–May 5</button>
+  <button class="tab" onclick="show('phase2')">May 6–19</button>
+  <button class="tab" onclick="show('phase3')">May 20–31</button>
+  <button class="tab" onclick="show('phase4')">Jun 1–5</button>
+  <button class="tab" onclick="show('strategy')">Topper Strategy</button>
+</nav>
+
+<div class="content">
+
+<!-- ===== OVERVIEW ===== -->
+<div id="overview" class="section active">
+
+  <div class="alert alert-red">
+    <strong>⚠️ REALITY CHECK — READ THIS FIRST</strong>
+    <p>You have 5 subjects with materials never read and exams starting May 20. That's 26 days. This is tight but very winnable if you execute the plan without missing a single day. The schedule is built to give each subject maximum time proportional to its difficulty and gap between exams.</p>
+  </div>
+
+  <div class="phase-label">Subject Schedule & Days Available</div>
+  <table class="units-table">
+    <thead><tr><th>Subject</th><th>Exam</th><th>Days to Prepare</th><th>Revision Days After</th><th>Strategy</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><span style="color:var(--eiot);font-weight:700;">Embedded Systems & IoT</span></td>
+        <td>May 20</td>
+        <td><span class="days-left" style="color:var(--eiot)">26</span></td>
+        <td>Primary focus Apr 24–May 18</td>
+        <td>2 full read-throughs + PYQ sprint</td>
+      </tr>
+      <tr>
+        <td><span style="color:var(--ke);font-weight:700;">Knowledge Engineering</span></td>
+        <td>May 25</td>
+        <td><span class="days-left" style="color:var(--ke)">31</span></td>
+        <td>Primary focus May 1–May 23</td>
+        <td>Concept maps + definitions focus</td>
+      </tr>
+      <tr>
+        <td><span style="color:var(--rs);font-weight:700;">Recommender Systems</span></td>
+        <td>May 27</td>
+        <td><span class="days-left" style="color:var(--rs)">33</span></td>
+        <td>Primary focus May 5–May 26</td>
+        <td>Algorithms + formulas heavy</td>
+      </tr>
+      <tr>
+        <td><span style="color:var(--nndl);font-weight:700;">Neural Networks & Deep Learning</span></td>
+        <td>May 30</td>
+        <td><span class="days-left" style="color:var(--nndl)">36</span></td>
+        <td>Primary focus May 8–May 29</td>
+        <td>Diagrams + backprop + architectures</td>
+      </tr>
+      <tr>
+        <td><span style="color:var(--sta);font-weight:700;">Software Testing & Automation</span></td>
+        <td>Jun 5</td>
+        <td><span class="days-left" style="color:var(--sta)">42</span></td>
+        <td>Primary focus May 10–Jun 4</td>
+        <td>Test cases + tools + definitions</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="phase-label">Phase Overview</div>
+  <div class="strategy-grid">
+    <div class="strategy-card">
+      <div class="strategy-card-title" style="color:var(--eiot)">📅 Phase 1 — Apr 24 to May 5</div>
+      <div class="strategy-item">PRIMARY: EIOT — full first read, all chapters</div>
+      <div class="strategy-item">SECONDARY: KE — start reading in parallel</div>
+      <div class="strategy-item">LIGHT: RS, NNDL, STA — 30 min overview each</div>
+      <div class="strategy-item">Goal: EIOT fully read + notes by May 5</div>
+    </div>
+    <div class="strategy-card">
+      <div class="strategy-card-title" style="color:var(--ke)">📅 Phase 2 — May 6 to May 19</div>
+      <div class="strategy-item">PRIMARY: KE complete read + revision</div>
+      <div class="strategy-item">SECONDARY: RS + NNDL first read</div>
+      <div class="strategy-item">REVISION: EIOT daily 30-min revision</div>
+      <div class="strategy-item">Goal: KE exam-ready, EIOT locked</div>
+    </div>
+    <div class="strategy-card">
+      <div class="strategy-card-title" style="color:var(--rs)">📅 Phase 3 — May 20 to May 31</div>
+      <div class="strategy-item">EIOT EXAM → May 20 ✅</div>
+      <div class="strategy-item">KE EXAM → May 25 ✅</div>
+      <div class="strategy-item">RS EXAM → May 27 ✅</div>
+      <div class="strategy-item">NNDL EXAM → May 30 ✅</div>
+      <div class="strategy-item">Rapid revision sprint for each</div>
+    </div>
+    <div class="strategy-card">
+      <div class="strategy-card-title" style="color:var(--sta)">📅 Phase 4 — Jun 1 to Jun 5</div>
+      <div class="strategy-item">FULL focus on STA only</div>
+      <div class="strategy-item">2 complete revision rounds</div>
+      <div class="strategy-item">Mock question practice daily</div>
+      <div class="strategy-item">STA EXAM → Jun 5 ✅ DONE!</div>
+    </div>
+  </div>
+
+  <div class="alert alert-gold">
+    <strong>🏆 THE TOPPER RULE — PQ4R METHOD</strong>
+    <p>For every chapter: Preview (2 min skim) → Question (write 3 questions you expect) → Read (full read) → Reflect (what's the main idea?) → Recite (close book, write key points from memory) → Review (recheck what you missed). This method doubles retention vs passive reading.</p>
+  </div>
+
+  <div class="alert alert-green">
+    <strong>✅ DAILY NON-NEGOTIABLES</strong>
+    <p>5:00–7:00am = Deep study (primary subject). Evening 5:30–8:00pm = Secondary subject + revision. Before sleep = write 5 key points from today from memory. Sunday = mock questions only, no new reading. Miss ONE day and you fall behind by 2 days.</p>
+  </div>
+
+</div>
+
+<!-- ===== PHASE 1: APR 24 – MAY 5 ===== -->
+<div id="phase1" class="section">
+  <div class="phase-label">Phase 1 · April 24 – May 5 · EIOT Primary + KE Launch</div>
+
+  <div class="alert alert-gold">
+    <strong>Phase 1 Mission</strong>
+    <p>Read EIOT completely (all units) with notes by May 5. Start KE in parallel from May 1. Get a 30-min overview of RS, NNDL, STA this week so nothing is a complete surprise later.</p>
+  </div>
+
+  <!-- WEEK 1 -->
+  <div class="week-block">
+    <div class="week-title">Week 1 — EIOT Full Read + Overview of All Subjects <span class="week-range">Apr 24–30</span></div>
+    <div class="day-card">
+
+      <!-- APR 24 THU -->
+      <div class="day-row">
+        <div class="day-cell"><div class="day-name">Thursday</div><div class="day-date">Apr 24</div></div>
+        <div class="day-cell"><span class="subject-tag" style="background:var(--eiot-dim);color:var(--eiot)">EIOT</span></div>
+        <div class="tasks-cell">
+          <div class="task"><div class="task-time">5:00–7:00am</div><div class="task-body"><div class="task-title"><span class="type-badge t-read">READ</span>EIOT Unit 1 — Complete read with bullet notes</div><div class="task-note">PQ4R method. Preview chapter → write 3 expected questions → read → write key points from memory.</div></div></div>
+          <div class="task"><div class="task-time">7:00–8:00am</div><div class="task-body"><div class="task-title"><span class="type-badge t-prac">PRACTICE</span>Write 10 key points from Unit 1 without looking</div><div class="task-note">Close your notes. What do you remember? This is your first retention test.</div></div></div>
+          <div class="task"><div class="task-time">5:30–7:30pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-read">READ</span>EIOT Unit 2 — Complete read with notes</div><div class="task-note">Focus on definitions and circuit diagrams. Draw them if present.</div></div></div>
+          <div class="task"><div class="task-time">7:30–8:00pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>Quick scan of KE Unit 1 (overview only)</div><div class="task-note">Just skim — 30 min. Get a feel for what KE covers. Don't deep read yet.</div></div></div>
+        </div>
+      </div>
+
+      <!-- APR 25 FRI -->
+      <div class="day-row">
+        <div class="day-cell"><div class="day-name">Friday</div><div class="day-date">Apr 25</div></div>
+        <div class="day-cell"><span class="subject-tag" style="background:var(--eiot-dim);color:var(--eiot)">EIOT</span></div>
+        <div class="tasks-cell">
+          <div class="task"><div class="task-time">5:00–7:00am</div><div class="task-body"><div class="task-title"><span class="type-badge t-read">READ</span>EIOT Unit 3 — Full read + notes</div><div class="task-note">IoT architecture, protocols (MQTT, CoAP, HTTP). Make a comparison table if multiple protocols covered.</div></div></div>
+          <div class="task"><div class="task-time">7:00–8:00am</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>Revise Unit 1+2 — key points only (no re-reading)</div><div class="task-note">Use your written notes only. Can you answer: What are the 3 most important concepts from each unit?</div></div></div>
+          <div class="task"><div class="task-time">5:30–7:30pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-read">READ</span>EIOT Unit 4 — Full read + notes</div></div></div>
+          <div class="task"><div class="task-time">7:30–8:00pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>RS overview skim — 30 min only</div><div class="task-note">Just understand what Recommender Systems is about. CF vs CB filtering at a glance.</div></div></div>
+        </div>
+      </div>
+
+      <!-- APR 26 SAT -->
+      <div class="day-row">
+        <div class="day-cell"><div class="day-name">Saturday</div><div class="day-date">Apr 26</div></div>
+        <div class="day-cell"><span class="subject-tag" style="background:var(--eiot-dim);color:var(--eiot)">EIOT</span></div>
+        <div class="tasks-cell">
+          <div class="task"><div class="task-time">5:00–7:30am</div><div class="task-body"><div class="task-title"><span class="type-badge t-read">READ</span>EIOT Unit 5 — Full read + notes</div><div class="task-note">Last unit — give it full attention. Note any formulas or numerical methods.</div></div></div>
+          <div class="task"><div class="task-time">7:30–9:00am</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>EIOT Units 3+4 — key concept recall</div></div></div>
+          <div class="task"><div class="task-time">9:00–12:00pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-prac">PRACTICE</span>EIOT — Write one-page summary per unit (5 pages total)</div><div class="task-note">These 5 pages = your revision bible for EIOT. Cover: key concepts, definitions, diagrams, formulas per unit.</div></div></div>
+          <div class="task"><div class="task-time">2:00–4:00pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>NNDL overview skim — 30 min</div><div class="task-note">Understand: what is a neural network? What topics are covered? Don't study yet.</div></div></div>
+          <div class="task"><div class="task-time">4:00–6:00pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>STA overview skim — 30 min + KE Unit 1 proper read</div></div></div>
+        </div>
+      </div>
+
+      <!-- APR 27 SUN -->
+      <div class="day-row">
+        <div class="day-cell"><div class="day-name">Sunday</div><div class="day-date">Apr 27</div></div>
+        <div class="day-cell"><span class="subject-tag" style="background:var(--eiot-dim);color:var(--eiot)">EIOT</span></div>
+        <div class="tasks-cell">
+          <div class="task"><div class="task-time">5:00–7:00am</div><div class="task-body"><div class="task-title"><span class="type-badge t-mock">MOCK</span>EIOT — Answer 20 expected exam questions from memory</div><div class="task-note">Write answers without notes. Check afterwards. This is your first self-test — don't skip it.</div></div></div>
+          <div class="task"><div class="task-time">7:00–9:00am</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>EIOT — Revisit only topics you couldn't answer in mock</div><div class="task-note">Targeted revision only. Fix weak spots. Strengthen what you know.</div></div></div>
+          <div class="task"><div class="task-time">10:00am–12:00pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-read">READ</span>KE Unit 2 — Full read + notes</div></div></div>
+          <div class="task"><div class="task-time">2:00–4:00pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>Weekly review — what did you master? What's weak?</div><div class="task-note">Write 5 weak points across all subjects. These are your priority for next week.</div></div></div>
+        </div>
+      </div>
+
+      <!-- APR 28 MON -->
+      <div class="day-row">
+        <div class="day-cell"><div class="day-name">Monday</div><div class="day-date">Apr 28</div></div>
+        <div class="day-cell"><span class="subject-tag" style="background:var(--eiot-dim);color:var(--eiot)">EIOT</span></div>
+        <div class="tasks-cell">
+          <div class="task"><div class="task-time">5:00–7:00am</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>EIOT — 2nd pass: Units 1+2 (faster, focus on weak areas)</div><div class="task-note">Second read is 2x faster. Use your one-pager. Fill gaps in understanding only.</div></div></div>
+          <div class="task"><div class="task-time">7:00–8:00am</div><div class="task-body"><div class="task-title"><span class="type-badge t-read">READ</span>KE Unit 3 — Full read + notes</div></div></div>
+          <div class="task"><div class="task-time">5:30–7:30pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>EIOT — 2nd pass: Units 3+4</div></div></div>
+          <div class="task"><div class="task-time">7:30–8:30pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-read">READ</span>RS Unit 1 — First read (start exposure)</div></div></div>
+        </div>
+      </div>
+
+      <!-- APR 29 TUE -->
+      <div class="day-row">
+        <div class="day-cell"><div class="day-name">Tuesday</div><div class="day-date">Apr 29</div></div>
+        <div class="day-cell"><span class="subject-tag" style="background:var(--eiot-dim);color:var(--eiot)">EIOT</span></div>
+        <div class="tasks-cell">
+          <div class="task"><div class="task-time">5:00–7:00am</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>EIOT — 2nd pass: Unit 5 + Full one-pager review</div><div class="task-note">After this, you've done 2 full passes of EIOT. It's locked.</div></div></div>
+          <div class="task"><div class="task-time">7:00–8:00am</div><div class="task-body"><div class="task-title"><span class="type-badge t-read">READ</span>KE Unit 4 — Full read</div></div></div>
+          <div class="task"><div class="task-time">5:30–7:30pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-prac">PRACTICE</span>EIOT — Write 15 likely exam questions + answers</div><div class="task-note">Predict what will come in the exam. Write 3 questions per unit. Answer in exam-style paragraphs.</div></div></div>
+          <div class="task"><div class="task-time">7:30–8:30pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-read">READ</span>NNDL Unit 1 — First read (start exposure)</div></div></div>
+        </div>
+      </div>
+
+      <!-- APR 30 WED -->
+      <div class="day-row">
+        <div class="day-cell"><div class="day-name">Wednesday</div><div class="day-date">Apr 30</div></div>
+        <div class="day-cell"><span class="subject-tag" style="background:var(--ke-dim);color:var(--ke)">KE</span></div>
+        <div class="tasks-cell">
+          <div class="task"><div class="task-time">5:00–7:00am</div><div class="task-body"><div class="task-title"><span class="type-badge t-read">READ</span>KE Unit 5 — Full read + notes</div><div class="task-note">KE Unit 5 done = all 5 KE units read once. Excellent progress.</div></div></div>
+          <div class="task"><div class="task-time">7:00–8:00am</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>EIOT — 10 mock questions, answers written from memory</div></div></div>
+          <div class="task"><div class="task-time">5:30–7:30pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-prac">PRACTICE</span>KE — One-page summary per unit (5 pages)</div><div class="task-note">Same as EIOT — your KE revision bible. Definitions, knowledge representations, inference methods.</div></div></div>
+          <div class="task"><div class="task-time">7:30–8:30pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-read">READ</span>STA Unit 1 — First read</div></div></div>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- end week 1 -->
+
+  <!-- WEEK 2: May 1–5 -->
+  <div class="week-block">
+    <div class="week-title">Week 2 — KE Revision + RS/NNDL First Read <span class="week-range">May 1–5</span></div>
+    <div class="day-card">
+
+      <div class="day-row">
+        <div class="day-cell"><div class="day-name">Thursday</div><div class="day-date">May 1</div></div>
+        <div class="day-cell"><span class="subject-tag" style="background:var(--ke-dim);color:var(--ke)">KE</span></div>
+        <div class="tasks-cell">
+          <div class="task"><div class="task-time">5:00–7:00am</div><div class="task-body"><div class="task-title"><span class="type-badge t-mock">MOCK</span>KE — 20 expected exam questions answered from memory</div><div class="task-note">Focus: knowledge representation, ontologies, expert systems, inference engines.</div></div></div>
+          <div class="task"><div class="task-time">7:00–8:00am</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>EIOT — daily 30-min one-pager review (maintain, don't forget)</div></div></div>
+          <div class="task"><div class="task-time">5:30–7:30pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-read">READ</span>RS Units 2+3 — Full read + notes</div></div></div>
+          <div class="task"><div class="task-time">7:30–8:30pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-read">READ</span>NNDL Unit 2 — Full read</div></div></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-cell"><div class="day-name">Friday</div><div class="day-date">May 2</div></div>
+        <div class="day-cell"><span class="subject-tag" style="background:var(--ke-dim);color:var(--ke)">KE</span></div>
+        <div class="tasks-cell">
+          <div class="task"><div class="task-time">5:00–7:00am</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>KE — 2nd pass Units 1+2+3 (targeted weak areas only)</div></div></div>
+          <div class="task"><div class="task-time">7:00–8:00am</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>EIOT — 10 Q practice (maintain)</div></div></div>
+          <div class="task"><div class="task-time">5:30–7:00pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-read">READ</span>RS Units 4+5 — Full read + notes</div><div class="task-note">RS fully read once by end of today!</div></div></div>
+          <div class="task"><div class="task-time">7:00–8:30pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-read">READ</span>NNDL Units 3+4 — Full read</div></div></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-cell"><div class="day-name">Saturday</div><div class="day-date">May 3</div></div>
+        <div class="day-cell"><span class="subject-tag" style="background:var(--rs-dim);color:var(--rs)">RS + NNDL</span></div>
+        <div class="tasks-cell">
+          <div class="task"><div class="task-time">5:00–7:00am</div><div class="task-body"><div class="task-title"><span class="type-badge t-prac">PRACTICE</span>RS — One-page summaries Units 1–3</div></div></div>
+          <div class="task"><div class="task-time">7:00–9:00am</div><div class="task-body"><div class="task-title"><span class="type-badge t-prac">PRACTICE</span>RS — One-page summaries Units 4–5</div></div></div>
+          <div class="task"><div class="task-time">10:00am–12:00pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-read">READ</span>NNDL Unit 5 — Full read + complete all unit summaries</div><div class="task-note">NNDL fully read once after this! Backpropagation + CNN/RNN architectures — draw diagrams.</div></div></div>
+          <div class="task"><div class="task-time">2:00–4:00pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-read">READ</span>STA Units 2+3 — Full read</div></div></div>
+          <div class="task"><div class="task-time">4:00–5:30pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>KE — 2nd pass Units 4+5 + 15 mock Qs</div></div></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-cell"><div class="day-name">Sunday</div><div class="day-date">May 4</div></div>
+        <div class="day-cell"><span class="subject-tag" style="background:var(--nndl-dim);color:var(--nndl)">NNDL</span></div>
+        <div class="tasks-cell">
+          <div class="task"><div class="task-time">5:00–7:30am</div><div class="task-body"><div class="task-title"><span class="type-badge t-prac">PRACTICE</span>NNDL — One-page summaries all 5 units</div><div class="task-note">Diagrams are critical for NNDL — include network architecture sketches in your summary.</div></div></div>
+          <div class="task"><div class="task-time">8:00–10:00am</div><div class="task-body"><div class="task-title"><span class="type-badge t-mock">MOCK</span>EIOT — Full mock: 25 Q timed (50 min)</div><div class="task-note">Exam is in 16 days. This is your first full timed mock. Score yourself strictly.</div></div></div>
+          <div class="task"><div class="task-time">2:00–4:00pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-read">READ</span>STA Units 4+5 — Full read</div><div class="task-note">STA fully read once after this! All 5 subjects have been read at least once. 🎯</div></div></div>
+          <div class="task"><div class="task-time">4:00–5:30pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-prac">PRACTICE</span>STA — One-page summaries all 5 units</div></div></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-cell"><div class="day-name">Monday</div><div class="day-date">May 5</div></div>
+        <div class="day-cell"><span class="subject-tag" style="background:var(--eiot-dim);color:var(--eiot)">EIOT LOCK</span></div>
+        <div class="tasks-cell">
+          <div class="task"><div class="task-time">5:00–7:00am</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>EIOT — Final revision pass: all 5 one-pagers + 20 mock Qs</div><div class="task-note">EIOT exam is in 15 days. After today, EIOT goes to maintenance mode (20 min/day only).</div></div></div>
+          <div class="task"><div class="task-time">7:00–8:00am</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>KE — 20 mock questions timed</div></div></div>
+          <div class="task"><div class="task-time">5:30–7:30pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>RS — 2nd pass Units 1+2+3 (targeted)</div></div></div>
+          <div class="task"><div class="task-time">7:30–8:30pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>NNDL — 2nd pass Unit 1+2 (architectures + activation fns)</div></div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- end phase1 -->
+
+<!-- ===== PHASE 2: MAY 6–19 ===== -->
+<div id="phase2" class="section">
+  <div class="phase-label">Phase 2 · May 6–19 · Revision Sprint — Exam Ready for All</div>
+
+  <div class="alert alert-gold">
+    <strong>Phase 2 Mission</strong>
+    <p>All 5 subjects have been read once. Now it's revision, mock questions, and locking in each subject before its exam. EIOT exam is May 20 — it gets daily 30-min maintenance. KE exam is May 25 — full revision this phase. RS, NNDL, STA — deep revision in parallel.</p>
+  </div>
+
+  <div class="week-block">
+    <div class="week-title">Week 3 — KE Final Revision + RS/NNDL Deep Revision <span class="week-range">May 6–12</span></div>
+    <div class="day-card">
+      <div class="day-row">
+        <div class="day-cell"><div class="day-name">Tuesday</div><div class="day-date">May 6</div></div>
+        <div class="day-cell"><span class="subject-tag" style="background:var(--ke-dim);color:var(--ke)">KE</span></div>
+        <div class="tasks-cell">
+          <div class="task"><div class="task-time">5:00–7:00am</div><div class="task-body"><div class="task-title"><span class="type-badge t-mock">MOCK</span>KE — Full timed mock: 25 Qs in 50 min</div><div class="task-note">KE exam in 19 days. First full mock. Score it. Note every wrong answer in error log.</div></div></div>
+          <div class="task"><div class="task-time">7:00–8:00am</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>EIOT — 20 min one-pager maintenance</div></div></div>
+          <div class="task"><div class="task-time">5:30–7:30pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>RS — 2nd pass Units 4+5 + one-pager review all units</div></div></div>
+          <div class="task"><div class="task-time">7:30–8:30pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>NNDL — 2nd pass Units 3+4+5</div></div></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-cell"><div class="day-name">Wed–Fri</div><div class="day-date">May 7–9</div></div>
+        <div class="day-cell"><span class="subject-tag" style="background:var(--ke-dim);color:var(--ke)">KE+RS</span></div>
+        <div class="tasks-cell">
+          <div class="task"><div class="task-time">5:00–7:00am</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>KE — Targeted revision of weak units (from mock error log)</div><div class="task-note">3 days × 2 hrs = 6 hrs deep KE revision. Cover every weak spot systematically.</div></div></div>
+          <div class="task"><div class="task-time">7:00–8:00am</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>EIOT — 20 min maintenance daily</div></div></div>
+          <div class="task"><div class="task-time">5:30–7:00pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-mock">MOCK</span>RS — 15 mock Qs per day (algorithms: CF, CBF, hybrid)</div><div class="task-note">Focus: collaborative filtering formulas, cosine similarity, matrix factorization concepts.</div></div></div>
+          <div class="task"><div class="task-time">7:00–8:30pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>NNDL — one-pager review + draw architectures from memory</div></div></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-cell"><div class="day-name">Sat–Sun</div><div class="day-date">May 10–11</div></div>
+        <div class="day-cell"><span class="subject-tag" style="background:var(--nndl-dim);color:var(--nndl)">NNDL+STA</span></div>
+        <div class="tasks-cell">
+          <div class="task"><div class="task-time">Sat 5–7am</div><div class="task-body"><div class="task-title"><span class="type-badge t-mock">MOCK</span>NNDL — Full mock 25 Qs timed</div><div class="task-note">Focus: perceptron, activation functions, backpropagation, CNN, RNN, LSTM concepts.</div></div></div>
+          <div class="task"><div class="task-time">Sat 8am–12pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>STA — 2nd pass all units. Identify heavy topics: Black box/White box, test case design, Selenium, JUnit.</div></div></div>
+          <div class="task"><div class="task-time">Sun 5–7am</div><div class="task-body"><div class="task-title"><span class="type-badge t-mock">MOCK</span>KE — Second full mock (should score higher than first)</div></div></div>
+          <div class="task"><div class="task-time">Sun 8am–12pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-mock">MOCK</span>EIOT — Full timed mock (last full mock before exam)</div><div class="task-note">Exam is in 9 days. Score this strictly. Fix remaining gaps today.</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="week-block">
+    <div class="week-title">Week 4 — Final Locks Before Exam Week <span class="week-range">May 12–19</span></div>
+    <div class="day-card">
+      <div class="day-row">
+        <div class="day-cell"><div class="day-name">Mon–Wed</div><div class="day-date">May 12–14</div></div>
+        <div class="day-cell"><span class="subject-tag" style="background:var(--eiot-dim);color:var(--eiot)">EIOT LOCK</span></div>
+        <div class="tasks-cell">
+          <div class="task"><div class="task-time">5:00–7:00am</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>EIOT — One-pager speed review + 10 Qs daily</div><div class="task-note">EIOT exam May 20 — you are exam-ready. These sessions are to keep it sharp, not re-learn.</div></div></div>
+          <div class="task"><div class="task-time">5:30–7:30pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>KE — Final revision all units. Write 20 key definitions.</div><div class="task-note">KE exam May 25. 3 days × 2 hrs = KE fully locked.</div></div></div>
+          <div class="task"><div class="task-time">7:30–8:30pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>RS / NNDL — Alternate daily (30 min each)</div></div></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-cell"><div class="day-name">Thu–Fri</div><div class="day-date">May 15–16</div></div>
+        <div class="day-cell"><span class="subject-tag" style="background:var(--rs-dim);color:var(--rs)">RS + NNDL</span></div>
+        <div class="tasks-cell">
+          <div class="task"><div class="task-time">5:00–7:00am</div><div class="task-body"><div class="task-title"><span class="type-badge t-mock">MOCK</span>RS — 20 Qs timed. Then NNDL — 20 Qs timed (alternate days)</div></div></div>
+          <div class="task"><div class="task-time">7:00–8:00am</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>EIOT — 20 min maintenance</div></div></div>
+          <div class="task"><div class="task-time">5:30–8:00pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>STA — Deep revision Units 1–3 (test types, test case design, V-model)</div></div></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-cell"><div class="day-name">Sat–Sun</div><div class="day-date">May 17–18</div></div>
+        <div class="day-cell"><span class="subject-tag" style="background:var(--eiot-dim);color:var(--eiot)">PRE-EXAM</span></div>
+        <div class="tasks-cell">
+          <div class="task"><div class="task-time">Sat 5–8am</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>EIOT — Final complete revision. All one-pagers. Every definition.</div><div class="task-note">Tomorrow is pre-exam day. Today = lock everything in.</div></div></div>
+          <div class="task"><div class="task-time">Sat 9am–12pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-mock">MOCK</span>EIOT — Final mock 30 Qs. Should score 85%+.</div></div></div>
+          <div class="task"><div class="task-time">Sun 5–6am</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>EIOT — One-pager read only. Light review.</div><div class="task-note">PRE-EXAM DAY. No new topics. No heavy study. Eat well, sleep early (9pm).</div></div></div>
+          <div class="task"><div class="task-time">Sun 6–8am</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>KE + RS — One-pager skim. Stay relaxed.</div></div></div>
+          <div class="task"><div class="task-time">Sun 9pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-break">SLEEP</span>Sleep. You are prepared. Rest = performance.</div></div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div><!-- end phase2 -->
+
+<!-- ===== PHASE 3: MAY 20–31 (EXAM WEEK) ===== -->
+<div id="phase3" class="section">
+  <div class="phase-label">Phase 3 · May 20–31 · EXAM WEEK — 4 Exams in 11 Days</div>
+
+  <div class="alert alert-red">
+    <strong>🔥 Exam Week Protocol</strong>
+    <p>Four exams in 11 days. After each exam — forget it immediately and pivot 100% to the next subject. No post-mortems. No regrets. The gap days are your sharpening window. Use them ruthlessly.</p>
+  </div>
+
+  <div class="week-block">
+    <div class="week-title">EIOT Exam → KE Exam Sprint <span class="week-range">May 20–25</span></div>
+    <div class="day-card">
+      <div class="day-row">
+        <div class="day-cell"><div class="day-name">Tuesday</div><div class="day-date">May 20</div></div>
+        <div class="day-cell"><span class="subject-tag" style="background:var(--gold-dim);color:var(--gold)">EXAM</span></div>
+        <div class="tasks-cell">
+          <div class="task"><div class="task-time">5:00–7:00am</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>EIOT — One-pager read only. No new topics.</div></div></div>
+          <div class="task"><div class="task-time">EXAM TIME</div><div class="task-body"><div class="task-title"><span class="type-badge t-exam">EXAM</span>🎯 EMBEDDED SYSTEMS & IoT EXAM</div><div class="task-note">Read every question twice. Attempt all. Definitions first, then application questions. You are ready.</div></div></div>
+          <div class="task"><div class="task-time">Post-exam</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>Immediately pivot → KE full revision session (2 hrs)</div><div class="task-note">Don't discuss the EIOT paper. Don't check answers. Pivot to KE now — 5 days left.</div></div></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-cell"><div class="day-name">Wed–Fri</div><div class="day-date">May 21–23</div></div>
+        <div class="day-cell"><span class="subject-tag" style="background:var(--ke-dim);color:var(--ke)">KE SPRINT</span></div>
+        <div class="tasks-cell">
+          <div class="task"><div class="task-time">5:00–8:00am</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>KE — 3 hrs deep revision daily. One unit per hour.</div><div class="task-note">3 days × 3 hrs = 9 hrs KE revision. This is your final exam prep window.</div></div></div>
+          <div class="task"><div class="task-time">5:30–7:30pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-mock">MOCK</span>KE — 20 Qs timed daily. Review every wrong answer.</div></div></div>
+          <div class="task"><div class="task-time">7:30–9:00pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>RS — 1 hr maintenance (exam in 6 days after KE)</div></div></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-cell"><div class="day-name">Saturday</div><div class="day-date">May 24</div></div>
+        <div class="day-cell"><span class="subject-tag" style="background:var(--ke-dim);color:var(--ke)">KE PRE-EXAM</span></div>
+        <div class="tasks-cell">
+          <div class="task"><div class="task-time">5:00–7:00am</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>KE — All 5 one-pagers final read. Write 10 key definitions.</div></div></div>
+          <div class="task"><div class="task-time">7:00–8:00am</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>RS — One-pager skim only</div></div></div>
+          <div class="task"><div class="task-time">9:00pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-break">SLEEP</span>Sleep. Exam tomorrow. You're ready.</div></div></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-cell"><div class="day-name">Sunday</div><div class="day-date">May 25</div></div>
+        <div class="day-cell"><span class="subject-tag" style="background:var(--gold-dim);color:var(--gold)">EXAM</span></div>
+        <div class="tasks-cell">
+          <div class="task"><div class="task-time">EXAM TIME</div><div class="task-body"><div class="task-title"><span class="type-badge t-exam">EXAM</span>🎯 KNOWLEDGE ENGINEERING EXAM</div></div></div>
+          <div class="task"><div class="task-time">Post-exam</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>PIVOT → RS full revision (2 hrs) immediately</div><div class="task-note">RS exam is in 2 days only. Move fast.</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="week-block">
+    <div class="week-title">RS Exam → NNDL Exam Sprint <span class="week-range">May 25–30</span></div>
+    <div class="day-card">
+      <div class="day-row">
+        <div class="day-cell"><div class="day-name">Monday</div><div class="day-date">May 26</div></div>
+        <div class="day-cell"><span class="subject-tag" style="background:var(--rs-dim);color:var(--rs)">RS SPRINT</span></div>
+        <div class="tasks-cell">
+          <div class="task"><div class="task-time">5:00–8:00am</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>RS — Full revision all 5 units. All algorithms. All formulas.</div><div class="task-note">RS exam TOMORROW. This is your last full day. Give everything.</div></div></div>
+          <div class="task"><div class="task-time">5:30–7:30pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-mock">MOCK</span>RS — 25 Qs timed. Review every answer. Fix last gaps.</div></div></div>
+          <div class="task"><div class="task-time">7:30–9:00pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>NNDL — 1 hr one-pager maintenance</div></div></div>
+          <div class="task"><div class="task-time">9:30pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-break">SLEEP</span>Exam tomorrow. Rest.</div></div></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-cell"><div class="day-name">Tuesday</div><div class="day-date">May 27</div></div>
+        <div class="day-cell"><span class="subject-tag" style="background:var(--gold-dim);color:var(--gold)">EXAM</span></div>
+        <div class="tasks-cell">
+          <div class="task"><div class="task-time">EXAM TIME</div><div class="task-body"><div class="task-title"><span class="type-badge t-exam">EXAM</span>🎯 RECOMMENDER SYSTEMS EXAM</div></div></div>
+          <div class="task"><div class="task-time">Post-exam</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>PIVOT → NNDL full revision immediately (3 hrs)</div><div class="task-note">NNDL exam in 3 days. Sprint mode.</div></div></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-cell"><div class="day-name">Wed–Thu</div><div class="day-date">May 28–29</div></div>
+        <div class="day-cell"><span class="subject-tag" style="background:var(--nndl-dim);color:var(--nndl)">NNDL SPRINT</span></div>
+        <div class="tasks-cell">
+          <div class="task"><div class="task-time">5:00–8:00am</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>NNDL — 3 hrs deep revision. Draw every architecture from memory.</div><div class="task-note">Perceptron → MLP → CNN → RNN → LSTM → Transformers overview. Draw each architecture.</div></div></div>
+          <div class="task"><div class="task-time">5:30–8:30pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-mock">MOCK</span>NNDL — 25 Qs timed. Backpropagation steps, gradient descent, loss functions.</div></div></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-cell"><div class="day-name">Friday</div><div class="day-date">May 30</div></div>
+        <div class="day-cell"><span class="subject-tag" style="background:var(--gold-dim);color:var(--gold)">EXAM</span></div>
+        <div class="tasks-cell">
+          <div class="task"><div class="task-time">EXAM TIME</div><div class="task-body"><div class="task-title"><span class="type-badge t-exam">EXAM</span>🎯 NEURAL NETWORKS & DEEP LEARNING EXAM</div></div></div>
+          <div class="task"><div class="task-time">Post-exam</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>PIVOT → STA immediately. 6 days left.</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- end phase3 -->
+
+<!-- ===== PHASE 4: JUN 1–5 ===== -->
+<div id="phase4" class="section">
+  <div class="phase-label">Phase 4 · June 1–5 · STA Final Push</div>
+
+  <div class="alert alert-green">
+    <strong>Final Stretch — STA is yours to top</strong>
+    <p>4 exams are done. You have 6 full days for STA. This is the most time you'll have had for any single subject in the home stretch. Use it to go deeper than anyone else. Write test cases, understand tools, master the definitions. This is where you separate yourself.</p>
+  </div>
+
+  <div class="week-block">
+    <div class="week-title">STA Final Sprint <span class="week-range">May 31–Jun 4</span></div>
+    <div class="day-card">
+      <div class="day-row">
+        <div class="day-cell"><div class="day-name">Sat–Sun</div><div class="day-date">May 31–Jun 1</div></div>
+        <div class="day-cell"><span class="subject-tag" style="background:var(--sta-dim);color:var(--sta)">STA</span></div>
+        <div class="tasks-cell">
+          <div class="task"><div class="task-time">5:00–8:00am</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>STA — Full revision all 5 units. One-pager review + new deep notes on weak areas.</div><div class="task-note">Focus: Testing levels, SDLC testing, black-box techniques (BVA, EP), white-box (statement, branch coverage), automation tools.</div></div></div>
+          <div class="task"><div class="task-time">9:00–11:00am</div><div class="task-body"><div class="task-title"><span class="type-badge t-mock">MOCK</span>STA — 25 Qs timed. Score. Error log update.</div></div></div>
+          <div class="task"><div class="task-time">2:00–5:00pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-prac">PRACTICE</span>STA — Write 5 full test cases (boundary, equivalence, decision table)</div><div class="task-note">Writing test cases by hand = exam-ready for application questions.</div></div></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-cell"><div class="day-name">Mon–Tue</div><div class="day-date">Jun 2–3</div></div>
+        <div class="day-cell"><span class="subject-tag" style="background:var(--sta-dim);color:var(--sta)">STA LOCK</span></div>
+        <div class="tasks-cell">
+          <div class="task"><div class="task-time">5:00–7:00am</div><div class="task-body"><div class="task-title"><span class="type-badge t-mock">MOCK</span>STA — 30 Qs timed. Target 90%+ score.</div></div></div>
+          <div class="task"><div class="task-time">7:00–8:00am</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>Fix every wrong answer. No guessing allowed.</div></div></div>
+          <div class="task"><div class="task-time">5:30–8:00pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>STA — Targeted revision: Selenium, JUnit, TestNG, Agile testing, CI/CD testing concepts</div></div></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-cell"><div class="day-name">Wednesday</div><div class="day-date">Jun 4</div></div>
+        <div class="day-cell"><span class="subject-tag" style="background:var(--sta-dim);color:var(--sta)">PRE-EXAM</span></div>
+        <div class="tasks-cell">
+          <div class="task"><div class="task-time">5:00–7:00am</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>STA — All one-pagers final read. Write 20 key definitions.</div></div></div>
+          <div class="task"><div class="task-time">7:00–8:00am</div><div class="task-body"><div class="task-title"><span class="type-badge t-rev">REVIEW</span>Light review only. No new topics. Trust your preparation.</div></div></div>
+          <div class="task"><div class="task-time">9:00pm</div><div class="task-body"><div class="task-title"><span class="type-badge t-break">SLEEP</span>Early sleep. Last exam tomorrow. You've come so far.</div></div></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-cell"><div class="day-name">Thursday</div><div class="day-date">Jun 5</div></div>
+        <div class="day-cell"><span class="subject-tag" style="background:var(--gold-dim);color:var(--gold)">FINAL EXAM</span></div>
+        <div class="tasks-cell">
+          <div class="task"><div class="task-time">EXAM TIME</div><div class="task-body"><div class="task-title"><span class="type-badge t-exam">EXAM</span>🏆 SOFTWARE TESTING & AUTOMATION — FINAL EXAM</div><div class="task-note">You've studied every subject. You've done the work. Go in confident. Top the exam.</div></div></div>
+          <div class="task"><div class="task-time">Post-exam</div><div class="task-body"><div class="task-title">🎉 SEMESTER COMPLETE. ALL 5 EXAMS DONE.</div><div class="task-note">Celebrate. You executed the plan. The results will reflect the work you put in.</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- end phase4 -->
+
+<!-- ===== STRATEGY ===== -->
+<div id="strategy" class="section">
+  <div class="phase-label">Topper Strategy — How to Score Above Everyone</div>
+
+  <div class="strategy-grid">
+    <div class="strategy-card">
+      <div class="strategy-card-title" style="color:var(--gold)">📖 Reading Method (PQ4R)</div>
+      <div class="strategy-item"><strong>Preview</strong> — skim headings, 2 min</div>
+      <div class="strategy-item"><strong>Question</strong> — write 3 expected exam Qs</div>
+      <div class="strategy-item"><strong>Read</strong> — full focused read</div>
+      <div class="strategy-item"><strong>Reflect</strong> — what's the core idea?</div>
+      <div class="strategy-item"><strong>Recite</strong> — close book, write key points</div>
+      <div class="strategy-item"><strong>Review</strong> — check what you missed</div>
+    </div>
+    <div class="strategy-card">
+      <div class="strategy-card-title" style="color:var(--eiot)">✍️ Exam Answering Strategy</div>
+      <div class="strategy-item">Read ALL questions first (5 min)</div>
+      <div class="strategy-item">Attempt known questions first</div>
+      <div class="strategy-item">Definition = 2 marks → 2–3 lines</div>
+      <div class="strategy-item">Explanation = 5 marks → use diagram</div>
+      <div class="strategy-item">Underline keywords in your answers</div>
+      <div class="strategy-item">Never leave a question blank</div>
+    </div>
+    <div class="strategy-card">
+      <div class="strategy-card-title" style="color:var(--rs)">🔑 One-Pager System</div>
+      <div class="strategy-item">1 page per unit (5 units = 5 pages)</div>
+      <div class="strategy-item">Cover: definitions, diagrams, formulas</div>
+      <div class="strategy-item">Use abbreviations + arrows</div>
+      <div class="strategy-item">Review these daily — 10 min</div>
+      <div class="strategy-item">The night before exam: read only this</div>
+    </div>
+    <div class="strategy-card">
+      <div class="strategy-card-title" style="color:var(--nndl)">🧠 Memory Tricks</div>
+      <div class="strategy-item">EIOT: Draw IoT stack layers daily</div>
+      <div class="strategy-item">KE: Make decision tree for inference types</div>
+      <div class="strategy-item">RS: Memorise similarity formula</div>
+      <div class="strategy-item">NNDL: Sketch architectures from memory</div>
+      <div class="strategy-item">STA: Write 1 test case daily (any type)</div>
+    </div>
+  </div>
+
+  <div class="alert alert-gold">
+    <strong>🏆 THE TOPPER DIFFERENCE — What separates 1st rank from 3rd rank</strong>
+    <p>Toppers don't read more — they recall more. After every study session, close the book and write what you remember. This active recall is 3x more effective than re-reading. The student who can reproduce content from memory in the exam hall is the one who tops. Practice this every single day.</p>
+  </div>
+
+  <div class="alert alert-green">
+    <strong>⚡ Quick Wins for Each Subject</strong>
+    <p><strong style="color:var(--eiot)">EIOT:</strong> Know the IoT architecture layers, key protocols (MQTT, CoAP), embedded C basics, sensor types. Draw diagrams — examiners love them. &nbsp;|&nbsp; <strong style="color:var(--ke)">KE:</strong> Know all knowledge representation types (frames, semantic nets, rules). Define expert system components. &nbsp;|&nbsp; <strong style="color:var(--rs)">RS:</strong> Memorise collaborative filtering formula + cosine similarity. Know CF vs CBF vs Hybrid clearly. &nbsp;|&nbsp; <strong style="color:var(--nndl)">NNDL:</strong> Draw backprop diagram. Know activation functions + when to use each. CNN vs RNN difference. &nbsp;|&nbsp; <strong style="color:var(--sta)">STA:</strong> Write test cases for BVA and EP. Know V-model. Define unit, integration, system, acceptance testing clearly.</p>
+  </div>
+
+  <div class="strategy-grid" style="margin-top:16px;">
+    <div class="strategy-card">
+      <div class="strategy-card-title" style="color:var(--ke)">⏰ Daily Schedule (Exam Phase)</div>
+      <div class="strategy-item">5:00–7:00am → Primary subject (deep)</div>
+      <div class="strategy-item">7:00–8:00am → Secondary / maintenance</div>
+      <div class="strategy-item">College / fixed commitments</div>
+      <div class="strategy-item">5:30–7:30pm → Mock questions</div>
+      <div class="strategy-item">7:30–8:30pm → Revision + recall write</div>
+      <div class="strategy-item">9:30pm → Sleep (non-negotiable)</div>
+    </div>
+    <div class="strategy-card">
+      <div class="strategy-card-title" style="color:var(--sta)">🚨 Red Flags — If you notice these, fix immediately</div>
+      <div class="strategy-item">Reading same chapter twice without notes = stop, make notes</div>
+      <div class="strategy-item">Mock score not improving = change method (more recall, less re-read)</div>
+      <div class="strategy-item">Studying past 11pm = sleep instead, wake at 5am</div>
+      <div class="strategy-item">Skipping a day = do double session next morning</div>
+      <div class="strategy-item">Panic the night before = one-pagers only, no new study</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end content -->
+
+<script>
+function show(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
