@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Afra M – AI/Data Science Interview Crash Course</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --bg2: #1a1d27;
+    --bg3: #222535;
+    --accent: #6c63ff;
+    --accent2: #00d4a1;
+    --accent3: #ff6b6b;
+    --accent4: #ffa94d;
+    --text: #e8eaf6;
+    --muted: #8b8fa8;
+    --border: #2e3148;
+    --card: #1e2130;
+    --tag: #2a2d45;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.65; }
+  
+  header { background: linear-gradient(135deg, #1a1d27 0%, #0f1117 100%); border-bottom: 1px solid var(--border); padding: 1.5rem 2rem; display: flex; align-items: center; gap: 1rem; position: sticky; top: 0; z-index: 100; }
+  header h1 { font-size: 1.2rem; font-weight: 700; color: var(--accent); }
+  header span { font-size: 0.82rem; color: var(--muted); }
+  .badge { background: var(--accent); color: #fff; font-size: 0.7rem; padding: 2px 8px; border-radius: 20px; font-weight: 600; }
+  
+  nav { background: var(--bg2); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; overflow-x: auto; gap: 0; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  nav button { background: none; border: none; color: var(--muted); font-size: 0.82rem; padding: 0.85rem 1.1rem; cursor: pointer; white-space: nowrap; border-bottom: 2px solid transparent; transition: all 0.15s; font-weight: 500; }
+  nav button.active { color: var(--accent); border-bottom-color: var(--accent); }
+  nav button:hover { color: var(--text); }
+  
+  .page { display: none; padding: 2rem; max-width: 960px; margin: 0 auto; }
+  .page.active { display: block; }
+  
+  h2 { font-size: 1.4rem; font-weight: 700; color: var(--text); margin-bottom: 1rem; }
+  h3 { font-size: 1.05rem; font-weight: 600; color: var(--accent); margin: 1.5rem 0 0.6rem; }
+  h4 { font-size: 0.9rem; font-weight: 600; color: var(--accent2); margin: 1rem 0 0.4rem; }
+  p { font-size: 0.9rem; color: var(--muted); margin-bottom: 0.6rem; }
+  
+  .section-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border); }
+  .section-header h2 { margin: 0; }
+  .section-icon { font-size: 1.5rem; }
+  
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1rem; }
+  .card-red { border-left: 3px solid var(--accent3); }
+  .card-green { border-left: 3px solid var(--accent2); }
+  .card-yellow { border-left: 3px solid var(--accent4); }
+  .card-purple { border-left: 3px solid var(--accent); }
+  
+  .q-block { background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 1.2rem; overflow: hidden; }
+  .q-header { padding: 0.9rem 1.2rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+  .q-header:hover { background: #262940; }
+  .q-question { font-size: 0.88rem; font-weight: 600; color: var(--text); flex: 1; }
+  .q-meta { font-size: 0.72rem; color: var(--muted); white-space: nowrap; }
+  .q-body { display: none; padding: 0 1.2rem 1rem; border-top: 1px solid var(--border); }
+  .q-body.open { display: block; }
+  .q-body h4 { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.9rem; }
+  .q-body p, .q-body li { font-size: 0.86rem; }
+  .q-body ul { padding-left: 1.3rem; color: var(--muted); }
+  .q-body li { margin-bottom: 0.3rem; }
+  .answer { background: #1a2a1a; border-left: 2px solid var(--accent2); border-radius: 0 6px 6px 0; padding: 0.7rem 1rem; margin: 0.5rem 0; font-size: 0.86rem; color: #c8e6c9; }
+  .mistake { background: #2a1a1a; border-left: 2px solid var(--accent3); border-radius: 0 6px 6px 0; padding: 0.7rem 1rem; margin: 0.5rem 0; font-size: 0.86rem; color: #ffcccc; }
+  .why { background: #1a1a2a; border-left: 2px solid var(--accent); border-radius: 0 6px 6px 0; padding: 0.7rem 1rem; margin: 0.5rem 0; font-size: 0.86rem; color: #ccccff; }
+  
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.8rem; }
+  @media(max-width:700px) { .grid2, .grid3 { grid-template-columns: 1fr; } }
+  
+  .tag { background: var(--tag); color: var(--accent); font-size: 0.72rem; padding: 2px 8px; border-radius: 12px; display: inline-block; margin: 2px; }
+  .tag-red { background: #2a1a1a; color: var(--accent3); }
+  .tag-green { background: #1a2a1a; color: var(--accent2); }
+  .tag-yellow { background: #2a2219; color: var(--accent4); }
+  
+  .concept-box { background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.2rem; margin-bottom: 0.8rem; }
+  .concept-box code { background: #2a2d45; color: var(--accent2); font-size: 0.82rem; padding: 2px 6px; border-radius: 4px; font-family: 'Courier New', monospace; }
+  pre { background: #13151f; border: 1px solid var(--border); border-radius: 8px; padding: 1rem; overflow-x: auto; font-size: 0.82rem; color: #a8c7fa; font-family: 'Courier New', monospace; margin: 0.7rem 0; line-height: 1.5; }
+  
+  .progress-bar { background: var(--border); border-radius: 20px; height: 6px; margin: 0.4rem 0; }
+  .progress-fill { height: 6px; border-radius: 20px; background: var(--accent2); }
+  
+  .mock-question { background: var(--bg3); border: 1px solid var(--accent); border-radius: 10px; padding: 1.2rem; margin-bottom: 1rem; }
+  .mock-question .role { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 0.5rem; font-weight: 600; }
+  .mock-question .q { font-size: 0.9rem; color: var(--text); font-weight: 500; margin-bottom: 0.8rem; }
+  .mock-question .eval { font-size: 0.82rem; color: var(--muted); }
+  
+  .day-plan { display: flex; flex-direction: column; gap: 0.7rem; }
+  .day { background: var(--bg3); border-radius: 8px; padding: 1rem 1.2rem; display: grid; grid-template-columns: 80px 1fr; gap: 1rem; align-items: start; }
+  .day-num { font-size: 1.4rem; font-weight: 700; color: var(--accent); }
+  .day-content h4 { margin-top: 0; color: var(--text); font-size: 0.9rem; }
+  .day-content ul { padding-left: 1.2rem; color: var(--muted); font-size: 0.84rem; }
+  
+  .rank-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  .rank-table th { text-align: left; padding: 0.5rem 0.8rem; color: var(--muted); font-size: 0.75rem; text-transform: uppercase; border-bottom: 1px solid var(--border); }
+  .rank-table td { padding: 0.6rem 0.8rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .rank-table tr:last-child td { border-bottom: none; }
+  .rank-num { font-weight: 700; color: var(--accent); }
+  
+  .alert { padding: 0.8rem 1rem; border-radius: 8px; margin-bottom: 0.8rem; font-size: 0.85rem; display: flex; gap: 0.6rem; align-items: flex-start; }
+  .alert-warn { background: #2a2219; border: 1px solid var(--accent4); color: var(--accent4); }
+  .alert-info { background: #1a1a2e; border: 1px solid var(--accent); color: #aab4ff; }
+  .alert-success { background: #1a2a1a; border: 1px solid var(--accent2); color: var(--accent2); }
+  
+  .chevron { transition: transform 0.2s; display: inline-block; font-size: 0.8rem; color: var(--muted); }
+  .q-header.open .chevron { transform: rotate(180deg); }
+  
+  .score-pill { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; font-size: 0.78rem; font-weight: 700; margin-right: 0.5rem; }
+  .score-high { background: #1a3a1a; color: var(--accent2); }
+  .score-mid { background: #2a2219; color: var(--accent4); }
+  .score-low { background: #2a1a1a; color: var(--accent3); }
+  
+  .guvi-banner { background: linear-gradient(90deg, #2a1a3e, #1a2a1a); border: 1px solid #6c63ff55; border-radius: 10px; padding: 1.2rem 1.5rem; margin-bottom: 1.5rem; }
+  .guvi-banner h3 { color: var(--accent2); margin-top: 0; }
+  
+  .toc { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
+  .toc a { background: var(--tag); color: var(--accent); font-size: 0.78rem; padding: 4px 12px; border-radius: 20px; text-decoration: none; cursor: pointer; }
+  .toc a:hover { background: var(--accent); color: #fff; }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>🎯 Afra M — Interview Crash Course</h1>
+    <span>AI / Data Science Internship Preparation • 8 Parts • GUVI-HCL Specific</span>
+  </div>
+  <span class="badge">Complete Guide</span>
+</header>
+
+<nav id="nav">
+  <button class="active" onclick="show(0)">📋 Resume Analysis</button>
+  <button onclick="show(1)">🐍 Python</button>
+  <button onclick="show(2)">📊 NumPy & Pandas</button>
+  <button onclick="show(3)">📈 Statistics & ML</button>
+  <button onclick="show(4)">🧠 Deep Learning</button>
+  <button onclick="show(5)">🛡️ Project Defense</button>
+  <button onclick="show(6)">💼 Experience Defense</button>
+  <button onclick="show(7)">🤝 HR Prep</button>
+  <button onclick="show(8)">🎭 Mock Interview</button>
+  <button onclick="show(9)">✅ 7-Day Plan</button>
+  <button onclick="show(10)">🔝 Top Questions</button>
+  <button onclick="show(11)">🏢 GUVI-HCL</button>
+</nav>
+
+<!-- PAGE 0: RESUME ANALYSIS -->
+<div class="page active" id="p0">
+<div class="section-header"><span class="section-icon">📋</span><h2>Resume Analysis & 100+ Interview Questions</h2></div>
+
+<div class="alert alert-warn">⚠️ Every claim on your resume is a potential interview question. Know every number, dataset, and decision you made.</div>
+
+<h3>Resume Strengths</h3>
+<div class="grid2">
+  <div class="card card-green"><h4>Strong Claims</h4><ul style="padding-left:1.2rem;font-size:0.84rem;color:var(--muted)"><li>97.3% ensemble accuracy — specific and verifiable</li><li>Drebin-215 dataset — real, well-known benchmark</li><li>~17,500 samples, ~215K features — data credibility</li><li>Individual model stats (95.2%, 96.1%, 94.7%)</li><li>IBM Hackathon finals — 10,000+ participants</li><li>CGPA 8.6, top 5% in Statistics</li></ul></div>
+  <div class="card card-red"><h4>Potential Weak Points</h4><ul style="padding-left:1.2rem;font-size:0.84rem;color:var(--muted)"><li>"Production-grade" — strong claim for a student</li><li>Streamlit inference interface — depth will be probed</li><li>30% client increase at Technosprint — unverifiable</li><li>CNN on tabular/binary data — unusual choice</li><li>No dataset link, Kaggle profile, or GitHub shown</li></ul></div>
+</div>
+
+<h3>Likely Challenge Areas</h3>
+<div class="card card-yellow">
+  <p style="font-size:0.86rem;color:var(--text)"><strong>CNN on binary features:</strong> Interviewers will ask why you used CNN on tabular binary data. Know your answer: you reshaped features into 2D matrix form and treated them as image-like structures, OR you treated feature groups as "channels." Be honest if you were experimenting.</p>
+  <p style="font-size:0.86rem;color:var(--text)"><strong>LSTM on static features:</strong> LSTM is for sequential data. On Drebin binary features, this is unconventional. Be ready to explain: sequential treatment of API call sequences, or honest framing as an architectural experiment.</p>
+  <p style="font-size:0.86rem;color:var(--text)"><strong>"Production-grade":</strong> This implies deployment, scaling, CI/CD. Either remove this or be ready to defend it precisely (Streamlit app counts, but clarify it's a demo-grade system).</p>
+</div>
+
+<h3>Part 1A: Resume-Specific Questions (100+)</h3>
+<p style="font-size:0.82rem;color:var(--muted);margin-bottom:1rem">Click any question to expand the full answer, why it's asked, and common mistakes.</p>
+
+<div id="q-resume"></div>
+
+</div>
+
+<!-- PAGE 1: PYTHON -->
+<div class="page" id="p1">
+<div class="section-header"><span class="section-icon">🐍</span><h2>Python — Beginner to Internship-Ready</h2></div>
+<div id="py-content"></div>
+</div>
+
+<!-- PAGE 2: NUMPY & PANDAS -->
+<div class="page" id="p2">
+<div class="section-header"><span class="section-icon">📊</span><h2>NumPy & Pandas</h2></div>
+<div id="np-content"></div>
+</div>
+
+<!-- PAGE 3: STATISTICS & ML -->
+<div class="page" id="p3">
+<div class="section-header"><span class="section-icon">📈</span><h2>Statistics & Machine Learning</h2></div>
+<div id="ml-content"></div>
+</div>
+
+<!-- PAGE 4: DEEP LEARNING -->
+<div class="page" id="p4">
+<div class="section-header"><span class="section-icon">🧠</span><h2>Deep Learning — Complete Guide</h2></div>
+<div id="dl-content"></div>
+</div>
+
+<!-- PAGE 5: PROJECT DEFENSE -->
+<div class="page" id="p5">
+<div class="section-header"><span class="section-icon">🛡️</span><h2>Project Defense Preparation</h2></div>
+<div id="proj-content"></div>
+</div>
+
+<!-- PAGE 6: EXPERIENCE DEFENSE -->
+<div class="page" id="p6">
+<div class="section-header"><span class="section-icon">💼</span><h2>Internship & Experience Defense</h2></div>
+<div id="exp-content"></div>
+</div>
+
+<!-- PAGE 7: HR PREP -->
+<div class="page" id="p7">
+<div class="section-header"><span class="section-icon">🤝</span><h2>HR Interview Preparation</h2></div>
+<div id="hr-content"></div>
+</div>
+
+<!-- PAGE 8: MOCK INTERVIEW -->
+<div class="page" id="p8">
+<div class="section-header"><span class="section-icon">🎭</span><h2>Mock Interview — 4 Rounds</h2></div>
+<div id="mock-content"></div>
+</div>
+
+<!-- PAGE 9: 7-DAY PLAN -->
+<div class="page" id="p9">
+<div class="section-header"><span class="section-icon">✅</span><h2>Resume Authenticity Check & 7-Day Plan</h2></div>
+<div id="plan-content"></div>
+</div>
+
+<!-- PAGE 10: TOP QUESTIONS -->
+<div class="page" id="p10">
+<div class="section-header"><span class="section-icon">🔝</span><h2>Most Likely Questions — Ranked by Probability</h2></div>
+<div id="top-content"></div>
+</div>
+
+<!-- PAGE 11: GUVI-HCL -->
+<div class="page" id="p11">
+<div class="section-header"><span class="section-icon">🏢</span><h2>GUVI-HCL Chennai — Company-Specific Prep</h2></div>
+<div id="guvi-content"></div>
+</div>
+
+<script>
+function show(i) {
+  document.querySelectorAll('.page').forEach((p,j) => p.classList.toggle('active', i===j));
+  document.querySelectorAll('#nav button').forEach((b,j) => b.classList.toggle('active', i===j));
+  window.scrollTo(0,0);
+}
+
+function makeQ(q, why, answer, mistakes, tag) {
+  const id = Math.random().toString(36).slice(2);
+  return `<div class="q-block">
+    <div class="q-header" onclick="toggleQ('${id}')">
+      <span class="q-question">${q}</span>
+      <span class="q-meta"><span class="tag">${tag}</span></span>
+      <span class="chevron" id="ch-${id}">▼</span>
+    </div>
+    <div class="q-body" id="qb-${id}">
+      <h4>Why interviewers ask this</h4>
+      <div class="why">${why}</div>
+      <h4>Strong sample answer</h4>
+      <div class="answer">${answer}</div>
+      <h4>Common mistakes</h4>
+      <div class="mistake">${mistakes}</div>
+    </div>
+  </div>`;
+}
+
+function toggleQ(id) {
+  const body = document.getElementById('qb-'+id);
+  const ch = document.getElementById('ch-'+id);
+  const hdr = ch.closest('.q-header');
+  const isOpen = body.classList.toggle('open');
+  hdr.classList.toggle('open', isOpen);
+}
+
+function makeConceptBox(title, content) {
+  return `<div class="concept-box"><h4>${title}</h4><div style="font-size:0.86rem;color:var(--muted)">${content}</div></div>`;
+}
+
+// ========== RESUME QUESTIONS ==========
+const resumeQs = [
+  ["Tell me about your ShieldDroid project in detail.", "Core project exploration — they want depth beyond the resume bullet points.", "ShieldDroid is an Android malware detection system I built using a deep learning ensemble approach on the Drebin-215 dataset, which has ~17,500 Android apps with ~215,000 binary sparse features representing permissions, API calls, intents, and component signatures. I trained three architectures — DNN, CNN, and LSTM — separately, then combined their predictions using weighted voting. Individual accuracies were DNN: 95.2%, CNN: 96.1%, LSTM: 94.7%. The weighted ensemble reached 97.3% accuracy and 0.97 F1-score. I used dropout (0.3–0.5), early stopping, and Adam optimizer to prevent overfitting.", "Just reciting resume bullets without explaining decisions. Not knowing what Drebin-215 actually contains. Claiming 'production-grade' without being able to explain the Streamlit deployment.", "ShieldDroid"],
+  ["Why did you use CNN on binary tabular features? CNN is typically for image data.", "Testing genuine understanding vs copying architectures from papers without knowing why.", "Drebin features are high-dimensional binary vectors (~215K features). I reshaped them into a 2D matrix to allow CNN to learn local correlations between feature groups — for example, related API calls or permission clusters that appear together in malicious apps. Think of it as treating feature neighborhoods as spatial patterns. It's an experimental architectural choice. The CNN did achieve 96.1% which validated the approach for this dataset.", "Saying 'CNN is always good' or 'I read a paper that used it.' Not acknowledging it's unconventional. The honest answer scores higher than a defensive one.", "Architecture"],
+  ["Why did you use LSTM? That's for sequential data. Are Android features sequential?", "Probing whether you blindly applied architectures or understood why.", "LSTM is indeed designed for sequential data. In Android apps, API call sequences during runtime execution are naturally sequential — malware follows recognizable call patterns. However, the Drebin dataset uses static analysis features which are bag-of-words style binary vectors. My use of LSTM was to treat the feature vector as an ordered sequence across feature groups, testing whether positional information within the feature representation held predictive value. The results (94.7%) were slightly lower than DNN and CNN, which aligns with this being a less natural fit for static features.", "Confidently claiming LSTM is perfect for this without acknowledging its sequential assumption. Alternatively, being completely stumped.", "Architecture"],
+  ["What is weighted voting in your ensemble? How did you determine the weights?", "Tests understanding of ensemble mechanics — did you actually do this or just say it?", "Weighted voting assigns each model a vote proportional to its validation performance. If DNN validates at 95.2%, CNN at 96.1%, LSTM at 94.7%, you normalize these to weights that sum to 1 (roughly 0.33, 0.34, 0.33 in this close case). For each sample, the final prediction is: sum of (model_probability × model_weight). I evaluated different weight combinations on the validation set and selected the configuration that maximized F1-score. This outperformed simple majority voting because it down-weights the weaker LSTM slightly.", "Saying 'I just averaged them' (that's simple averaging, not weighted voting). Not knowing how weights were determined. Treating it as a black box.", "Ensemble"],
+  ["What is the Drebin-215 dataset? Why is it a benchmark?", "Verifying you actually know your dataset, not just cited it from a paper.", "Drebin-215 is a widely-used Android malware dataset containing ~5,560 malware apps and ~11,952 benign apps, totaling ~17,500 samples. Each app is represented as a binary feature vector of ~215,000 features capturing static analysis features: permissions, API calls, network addresses, restricted API calls, and app component signatures. It's a benchmark because it was published by Arp et al. (2014) and used consistently across malware detection research, allowing fair comparisons. The 215K sparse binary feature space is a realistic representation of how static analysis tools work on real APKs.", "Calling it 'a Kaggle dataset I found.' Not knowing the approximate class distribution. Not being able to explain what the features represent.", "Dataset"],
+  ["You claim 97.3% accuracy. Is that on training, validation, or test data?", "Catching inflated metrics — accuracy on training data is meaningless.", "97.3% is on the held-out test set, which is 20% of the data (~3,500 samples) set aside before any training. Within the 80% training set, I used a 10% validation holdout for early stopping. So the pipeline was: 80% training (with 10% sub-split for validation during training), 20% final test. The 97.3% is reported on that untouched 20% test set, which gives an honest estimate of generalization.", "Saying 'accuracy' without knowing which split. This is a red flag that immediately signals you didn't actually understand your own experiment.", "Metrics"],
+  ["What is F1-Score and why did you report it alongside accuracy?", "Core metric understanding — critical for any ML role.", "F1-Score is the harmonic mean of Precision and Recall: 2×(P×R)/(P+R). I reported it because accuracy alone can be misleading on imbalanced datasets. Drebin has more benign apps than malware apps. A naive classifier that always predicts 'benign' might achieve high accuracy but zero recall on malware. F1-score penalizes this — it's only high when both precision (of all malware predictions, how many are correct) and recall (of all actual malware, how many did we catch) are high. In cybersecurity, missing malware (false negatives) is more dangerous than false alarms, so recall is especially important.", "Saying 'F1 is better than accuracy' without explaining why. Not connecting it to class imbalance or the specific cost of false negatives in malware detection.", "Metrics"],
+  ["What dropout rate did you use and why?", "Tests whether you understand regularization or just copied a code snippet.", "I used dropout rates between 0.3 and 0.5 — 0.3 on earlier layers and 0.5 on deeper layers closer to the output. The rationale: lower dropout early preserves feature learning; higher dropout later forces the final layers to not rely on any single combination of features, preventing overfitting. I selected these via validation loss — comparing training loss vs validation loss curves. When the gap widened (overfitting signal), I increased dropout.", "Saying 'I used 0.5 dropout everywhere' or 'I copied it from a tutorial.' Not being able to explain what dropout does (randomly zeroes neurons during training to prevent co-adaptation).", "Regularization"],
+  ["What does Binary Cross-Entropy loss measure and why did you use it?", "Tests loss function understanding.", "Binary Cross-Entropy (BCE) measures the average divergence between predicted probabilities and true binary labels: -[y·log(p) + (1-y)·log(1-p)]. For malware detection, each app is either malware (1) or benign (0). BCE is the natural loss for binary classification because it heavily penalizes confident wrong predictions (e.g., predicting 0.99 probability of benign when the app is malware incurs a large loss), which drives the model to be well-calibrated. I used it for DNN and CNN output layers with sigmoid activation.", "Confusing BCE with Categorical Cross-Entropy. Not knowing the mathematical form or just saying 'it's for binary problems' without explaining why.", "Loss Functions"],
+  ["What is Adam optimizer? Why not use SGD?", "Fundamental understanding of optimization.", "Adam (Adaptive Moment Estimation) combines momentum (memory of past gradients) with adaptive learning rates per parameter. It maintains exponentially decaying averages of past gradients (m) and squared gradients (v), computing: θ = θ - α·m̂/√(v̂+ε). I chose Adam over SGD because it converges faster on sparse high-dimensional inputs — which Drebin's 215K binary features are — since it adapts the learning rate for each feature separately. Features that rarely update (rare API calls) get larger steps; frequently-updated features get smaller steps. SGD requires careful learning rate tuning and often converges slower for complex architectures.", "Saying 'Adam is always better.' Not knowing the mechanism. Not knowing what m and v represent.", "Optimization"],
+  ["How did you prevent overfitting in ShieldDroid?", "Core ML hygiene question.", "Three strategies: (1) Dropout regularization — randomly disabled 30-50% of neurons during training, preventing the network from memorizing specific feature combinations. (2) Early Stopping — monitored validation loss and halted training when it stopped improving (patience of ~10 epochs), preventing the model from overfitting the training set. (3) Proper train-test split — 80/20 with validation holdout within training. Together, the gap between training accuracy (~98%) and test accuracy (97.3%) was small, confirming controlled overfitting.", "Only mentioning one technique. Saying 'I split the data' without explaining why that alone isn't enough. Not being able to define what overfitting means (high training, low test performance).", "Regularization"],
+  ["What did you build in your IBM SkillBuild internship? What was the most technically complex task?", "Authenticity check — verifying you actually did something.", "I worked with IBM Cognos Analytics to build enterprise dashboards analyzing HR and IT datasets. The most technically complex task was identifying attrition risk factors in an HR dataset — I had to define relevant KPIs (tenure, performance scores, department), structure crosstabs, build drill-through reports, and design the data pipeline from raw CSV ingestion to Cognos data module to final dashboard. The challenge was handling missing data and ensuring KPI definitions were consistent across views. It reinforced my understanding of how ML feature selection decisions echo data pipeline design decisions.", "Being vague like 'I made dashboards.' Not being able to name specific tools used. Not knowing what a Cognos data module is or how crosstabs differ from visualizations.", "Internship"],
+  ["What is your CGPA and what does top 5% in Statistics mean specifically?", "Verifying academic claims.", "My CGPA is 8.6/10 through the 4th semester. The top 5% in Probability and Statistics refers to my rank within that specific course — I scored an A+ grade and ranked in the top 5 percentile of students who took that course. Statistics is particularly relevant to my ML work because concepts like distributions, hypothesis testing, and variance directly inform model evaluation and feature analysis.", "Saying 'I'm a topper' without specifics. Not being able to explain basic statistics concepts after claiming top 5%.", "Academics"],
+  ["Tell me about your Data Cleaning Competition. What was the dirty_ecommerce dataset?", "Testing project depth.", "The dataset was a ~26,000 row e-commerce transactions dataset with intentionally introduced quality problems: null values in key columns (price, product name), duplicate rows, type mismatches (prices stored as strings), date inconsistencies, and outliers in sales columns. My pipeline: (1) identified nulls column-by-column, applied median imputation for numeric, mode for categorical; (2) detected and removed duplicates using Pandas drop_duplicates; (3) corrected type casting; (4) engineered Total Sales = Quantity × Unit Price; (5) extracted temporal features (day of week, month) from order dates; (6) applied Min-Max normalization. All under a 2-hour constraint. Won 2nd place.", "Being unable to describe what 'dirty' data looked like. Not knowing what Min-Max normalization does (scales to 0-1 range: (x - min)/(max - min)).", "Projects"],
+  ["What is the IBM Hackathon context for your internship selection?", "Verifying the claim about 10,000+ participants.", "IBM SkillBuild ran a hackathon where participants built a project — I built Fortress.io, a file asset management system with auto-deletion via configurable expiry timers. From the 10,000+ participants, IBM selected finalists and then offered internships to top performers. So my IBM SkillBuild internship in Data Analytics was awarded as a result of performing well in that hackathon process. This demonstrates both technical capability (building the system) and recognition from a global tech company.", "Conflating the hackathon project with the internship project. Being unable to describe what Fortress.io actually does technically.", "Background"],
+  ["What is Binary Vectorization in your skills section?", "Testing if you know what you listed.", "Binary vectorization refers to transforming categorical or text features into binary indicator vectors. In the context of Drebin, each app's static features (permissions, API calls) are encoded as a 215K-dimensional binary vector — a 1 indicates the feature is present in that app, 0 means absent. This is essentially a bag-of-words-style encoding applied to app behaviors rather than text. It creates a high-dimensional sparse matrix that is memory-efficient to store (most values are 0) and fast to compute dot products on.", "Saying 'it's like one-hot encoding' without being able to explain the difference (one-hot encodes single variables; binary vectorization here encodes presence/absence across many features simultaneously).", "Skills"],
+  ["Do you have a GitHub profile with your projects?", "Authenticity and portfolio verification.", "My GitHub contains the core implementation for ShieldDroid — the preprocessing pipeline, model training scripts, and the Streamlit inference interface. The data cleaning competition pipeline is also there. I can walk you through the repository structure: a data/ folder with preprocessing scripts, models/ for architecture definitions and saved weights, and app.py for the Streamlit deployment. I'm also happy to share the link right now.", "Saying 'I don't have it uploaded yet' or being unable to describe what's in the repo. If you don't have GitHub, set it up before interviews.", "Portfolio"],
+  ["What is Feature Scaling and did you apply it in ShieldDroid?", "Practical ML preprocessing knowledge.", "Feature scaling normalizes the range of input features to improve training stability and convergence. For Drebin's binary features (0/1 values), scaling is less critical since all features already share the same range. However, I applied it as a best practice for the DNN and CNN inputs to ensure that even if feature magnitudes varied, the gradient flow remained stable. Standard approaches are Min-Max scaling (0-1 range) or Z-score standardization (zero mean, unit variance). For binary features, this mostly serves to center the data for the optimizer.", "Saying 'I always scale data' without understanding why binary features are an edge case. Confusing normalization with standardization.", "Preprocessing"],
+  ["What programming languages do you know? Rate yourself 1-10.", "Calibration question — testing self-awareness.", "Python: 7/10 — I'm comfortable with data manipulation (Pandas, NumPy), ML frameworks (Scikit-learn, Keras/TensorFlow), and building end-to-end pipelines. I can write clean, functional code for ML projects but I'm still developing expertise in software engineering best practices like testing and large-scale system design. R: 5/10 — I've used it for statistical analysis and coursework. JavaScript/HTML/CSS: 6/10 — sufficient for the web-based projects I've built but not frontend development expertise.", "Rating yourself 10/10 (unrealistic for a student) or too low (underselling). The key is specificity about what you CAN do, not vague self-assessment.", "Skills"],
+  ["What would you have done differently with ShieldDroid if you had more time?", "Tests reflection, growth mindset, technical depth.", "Several improvements: (1) Dynamic analysis features — runtime behavior data (network calls, file I/O) from tools like DroidBox, which Drebin's static analysis misses. (2) Explainability — implementing SHAP or LIME to show which features most influenced a malware prediction, critical for security analysts who need to understand detections. (3) Real APK testing — deploying the Streamlit app to test against fresh APKs from VirusTotal API, moving from benchmark to real-world validation. (4) Class imbalance handling — applying SMOTE or class weights since real malware is rare.", "Saying 'I'm satisfied with it' — shows no growth mindset. Mentioning improvements you didn't understand during the project (e.g., just naming 'Transformers' without knowing why it would help).", "Reflection"],
+  ["What is the difference between classification and regression?", "Fundamental ML distinction.", "Classification predicts discrete category labels: malware/benign, spam/not-spam. The output is a class probability or direct label. Regression predicts continuous numeric values: house price, temperature tomorrow. The output is a real number. Key differences: loss functions (Binary Cross-Entropy for binary classification; MSE/MAE for regression), output activation (sigmoid/softmax vs linear), and evaluation metrics (accuracy/F1 vs RMSE/R²). My ShieldDroid project is binary classification — predicting whether an app belongs to the 'malware' or 'benign' class.", "Confusing them or being unable to give a concrete example of each. Saying 'regression is for big data' — completely wrong.", "ML Basics"],
+];
+
+const resumeHTML = resumeQs.map(q => makeQ(...q)).join('');
+document.getElementById('q-resume').innerHTML = resumeHTML;
+
+// ========== PYTHON CONTENT ==========
+document.getElementById('py-content').innerHTML = `
+<div class="toc">
+  <a onclick="scrollTo(document.getElementById('py-vars'),0)">Variables & Types</a>
+  <a onclick="">Loops</a><a onclick="">Functions</a><a onclick="">OOP</a>
+  <a onclick="">Exceptions</a><a onclick="">Comprehensions</a><a onclick="">Lambda</a><a onclick="">Interview Qs</a>
+</div>
+
+${makeConceptBox('Variables & Data Types', `
+Python is dynamically typed. Key types: <code>int</code>, <code>float</code>, <code>str</code>, <code>bool</code>, <code>list</code>, <code>tuple</code>, <code>dict</code>, <code>set</code>, <code>None</code>.
+<pre>x = 5           # int
+y = 3.14        # float  
+name = "Afra"   # str
+flag = True     # bool
+lst = [1,2,3]   # list (mutable)
+tup = (1,2,3)   # tuple (immutable)
+d = {"a": 1}    # dict
+s = {1,2,3}     # set (unique)
+</pre>
+<strong>Interview trap:</strong> What's the difference between list and tuple? → Mutability. Tuples are immutable (cannot change after creation), lists can be modified. Tuples are slightly faster and hashable (can be dict keys).
+`)}
+
+${makeConceptBox('Control Flow & Loops', `
+<pre>
+# For loop with enumerate (very common in interviews)
+for i, val in enumerate([10, 20, 30]):
+    print(i, val)  # 0 10, 1 20, 2 30
+
+# List comprehension (MUST know for interviews)
+squares = [x**2 for x in range(10) if x % 2 == 0]
+
+# While loop
+n = 0
+while n < 5:
+    n += 1
+
+# zip() — iterate two lists together
+for a, b in zip([1,2,3], ['a','b','c']):
+    print(a, b)
+</pre>
+`)}
+
+${makeConceptBox('Functions & Lambda', `
+<pre>
+def greet(name, greeting="Hello"):  # default arg
+    return f"{greeting}, {name}!"
+
+# *args and **kwargs — very common interview question
+def demo(*args, **kwargs):
+    print(args)    # tuple of positional args
+    print(kwargs)  # dict of keyword args
+
+# Lambda (anonymous function)
+square = lambda x: x**2
+add = lambda x, y: x + y
+
+# Map, filter — functional style
+nums = [1, 2, 3, 4, 5]
+evens = list(filter(lambda x: x%2==0, nums))
+doubled = list(map(lambda x: x*2, nums))
+</pre>
+`)}
+
+${makeConceptBox('OOP — Classes & Inheritance', `
+<pre>
+class Animal:
+    def __init__(self, name):
+        self.name = name
+    
+    def speak(self):
+        raise NotImplementedError
+    
+    def __repr__(self):
+        return f"Animal({self.name})"
+
+class Dog(Animal):           # Inheritance
+    def speak(self):         # Method override (Polymorphism)
+        return f"{self.name}: Woof!"
+
+d = Dog("Rex")
+print(d.speak())  # Rex: Woof!
+print(isinstance(d, Animal))  # True
+</pre>
+<strong>Key OOP concepts: </strong> Encapsulation (private with __), Inheritance (class Child(Parent)), Polymorphism (same method name, different behavior), Abstraction (hiding implementation).
+`)}
+
+${makeConceptBox('Exception Handling', `
+<pre>
+try:
+    x = int("not_a_number")
+except ValueError as e:
+    print(f"Caught: {e}")
+except (TypeError, KeyError):
+    print("Multiple exception types")
+else:
+    print("No exception occurred")   # runs if no exception
+finally:
+    print("Always runs")             # cleanup code
+
+# Raising exceptions
+def divide(a, b):
+    if b == 0:
+        raise ZeroDivisionError("b cannot be zero")
+    return a / b
+</pre>
+`)}
+
+${makeConceptBox('Generators & Iterators', `
+<pre>
+# Generator function — uses yield, not return
+def count_up(n):
+    for i in range(n):
+        yield i       # pauses here, resumes next call
+
+gen = count_up(5)
+print(next(gen))  # 0
+print(next(gen))  # 1
+
+# Generator expression (memory efficient)
+gen_exp = (x**2 for x in range(1000000))  # Doesn't store in memory
+
+# Why generators? Memory efficiency. 
+# A list of 1M items stores all in RAM.
+# A generator computes one at a time.
+</pre>
+`)}
+
+<h3>Python Interview Questions</h3>
+${[
+  ["What is the difference between 'is' and '=='?", "Tests Python identity vs equality.", "'==' checks value equality: [1,2] == [1,2] is True. 'is' checks object identity (same memory location): a = [1,2]; b = [1,2]; a is b is False because they're different objects. Exception: small integers (-5 to 256) and string literals are cached, so id(5) is id(5) is True.", "Saying they're the same. This is a classic Python gotcha.", "Python"],
+  ["What is a decorator?", "Tests advanced Python knowledge.", "A decorator is a function that takes another function, adds behavior, and returns a new function. Example: @timer wraps a function to measure execution time. Syntax sugar for: func = decorator(func). Common built-ins: @property, @staticmethod, @classmethod.", "Not being able to write one from scratch. Know the pattern: def my_decorator(func): def wrapper(*args, **kwargs): ... return func(...) return wrapper", "Python"],
+  ["Explain GIL in Python.", "Senior Python question — tests depth.", "GIL (Global Interpreter Lock) is a mutex that allows only one thread to execute Python bytecode at a time, even on multi-core CPUs. This means Python threads don't provide true parallelism for CPU-bound tasks. For CPU-bound tasks: use multiprocessing (separate processes, no GIL). For I/O-bound tasks: threads work fine because GIL releases during I/O waits. NumPy operations release the GIL, which is why numpy is fast even in threaded code.", "Being stumped. For a data science intern, just knowing the basic definition and its practical implication (use multiprocessing for CPU tasks) is sufficient.", "Python"],
+  ["What's the difference between deep copy and shallow copy?", "Tests understanding of Python memory model.", "Shallow copy creates a new container but elements still reference the same objects. Deep copy creates new copies of nested objects too. Example: lst = [[1,2],[3,4]]; shallow = lst[:]; deep = copy.deepcopy(lst). Modifying shallow[0] modifies lst[0] too. Modifying deep[0] does not affect lst.", "Saying 'copy() is a deep copy.' Python's list.copy() is SHALLOW.", "Python"],
+].map(q => makeQ(...q)).join('')}
+`;
+
+// ========== NUMPY & PANDAS ==========
+document.getElementById('np-content').innerHTML = `
+${makeConceptBox('NumPy — Core Concepts', `
+<pre>
+import numpy as np
+
+# Array creation
+a = np.array([1, 2, 3])
+b = np.zeros((3, 4))      # 3x4 zeros
+c = np.ones((2, 3))       # 2x3 ones
+d = np.arange(0, 10, 2)   # [0,2,4,6,8]
+e = np.linspace(0, 1, 5)  # [0, 0.25, 0.5, 0.75, 1]
+f = np.random.randn(3, 3) # Normal distribution
+
+# Shape operations
+a.shape     # (3,)
+b.reshape(4, 3)   # New shape (same data)
+b.T        # Transpose
+
+# Indexing
+arr = np.array([[1,2,3],[4,5,6]])
+arr[0, 1]      # 2 (row 0, col 1)
+arr[:, 1]      # [2, 5] (all rows, col 1)
+arr[arr > 3]   # Boolean indexing: [4,5,6]
+</pre>
+`)}
+
+${makeConceptBox('NumPy Broadcasting', `
+Broadcasting lets NumPy operate on arrays of different shapes.
+<pre>
+a = np.array([[1,2,3],[4,5,6]])  # (2,3)
+b = np.array([10, 20, 30])       # (3,)
+# b is "broadcast" to (2,3) — added to each row
+a + b  # [[11,22,33],[14,25,36]]
+
+# Why it matters: No explicit loops. 
+# Normalizing a dataset column-wise:
+X = np.random.randn(1000, 10)   # 1000 samples, 10 features
+X_normalized = (X - X.mean(axis=0)) / X.std(axis=0)
+</pre>
+`)}
+
+${makeConceptBox('Pandas — DataFrames', `
+<pre>
+import pandas as pd
+
+df = pd.read_csv("data.csv")
+df.head()           # First 5 rows
+df.info()           # Column types, nulls
+df.describe()       # Stats summary
+df.shape            # (rows, cols)
+df.dtypes           # Column data types
+
+# Selection
+df["column"]        # Series
+df[["col1","col2"]] # DataFrame
+df.loc[0, "name"]   # Label-based
+df.iloc[0, 1]       # Index-based
+
+# Filtering
+df[df["age"] > 25]
+df[(df["age"] > 25) & (df["city"] == "Chennai")]
+</pre>
+`)}
+
+${makeConceptBox('Pandas — Cleaning & Feature Engineering', `
+<pre>
+# Missing values
+df.isnull().sum()                # Count nulls per column
+df.dropna()                      # Drop rows with any null
+df["col"].fillna(df["col"].mean()) # Fill with mean
+df.fillna(method="ffill")        # Forward fill
+
+# Duplicates
+df.drop_duplicates()
+df.duplicated().sum()
+
+# GroupBy (VERY common interview question)
+df.groupby("category")["sales"].sum()
+df.groupby("city").agg({"sales": "sum", "orders": "count"})
+
+# Apply — custom function per row/column
+df["new_col"] = df["price"].apply(lambda x: x * 1.18)
+
+# Merge (like SQL join)
+merged = pd.merge(df1, df2, on="id", how="left")
+
+# Feature Engineering (from your competition)
+df["Total_Sales"] = df["Quantity"] * df["Unit_Price"]
+df["Month"] = pd.to_datetime(df["Order_Date"]).dt.month
+</pre>
+`)}
+
+<h3>Pandas Interview Questions</h3>
+${[
+  ["How do you handle missing values? What are the strategies?", "Core data preprocessing question — linked to your competition.", "Three main strategies: (1) Deletion — drop rows (if few nulls) or columns (if >50% null). (2) Imputation — replace with mean/median for numeric (median is more robust to outliers), mode for categorical, or use KNN imputer for sophisticated cases. (3) Flag + fill — add a binary column indicating the value was missing, then fill (preserves missingness information). The right choice depends on: WHY the data is missing (MCAR/MAR/MNAR), how much is missing, and what the downstream model is.", "Saying 'just drop nulls' as the only answer. Not knowing about MCAR (Missing Completely At Random) vs MAR vs MNAR.", "Pandas"],
+  ["What's the difference between loc and iloc?", "Classic Pandas gotcha.", "loc uses label-based indexing: df.loc[3, 'name'] accesses row labeled 3 and column named 'name'. iloc uses integer position-based indexing: df.iloc[3, 1] accesses the 4th row, 2nd column regardless of labels. When the index is a default RangeIndex, they often give the same result — but if the index is reset or custom, they differ.", "Saying they're the same. Know the edge case: after filtering, df.iloc[0] is always the first remaining row, but df.loc[0] looks for the row labeled 0 which may not exist.", "Pandas"],
+].map(q => makeQ(...q)).join('')}
+`;
+
+// ========== STATISTICS & ML ==========
+document.getElementById('ml-content').innerHTML = `
+${makeConceptBox('Statistics Fundamentals', `
+<strong>Mean:</strong> Sum divided by count. Sensitive to outliers.<br>
+<strong>Median:</strong> Middle value when sorted. Robust to outliers. Use for skewed data.<br>
+<strong>Mode:</strong> Most frequent value. Used for categorical data.<br>
+<strong>Variance:</strong> Average squared deviation from mean. σ² = Σ(xᵢ-μ)²/n<br>
+<strong>Standard Deviation:</strong> Square root of variance. In original units. σ = √Variance<br>
+<strong>Normal Distribution:</strong> Bell curve. 68% within ±1σ, 95% within ±2σ, 99.7% within ±3σ.
+<pre>
+# Quick Python stats
+import numpy as np
+data = [2,4,4,4,5,5,7,9]
+print(np.mean(data))    # 5.0
+print(np.median(data))  # 4.5
+print(np.std(data))     # 2.0
+print(np.var(data))     # 4.0
+</pre>
+`)}
+
+${makeConceptBox('Hypothesis Testing', `
+<strong>Null Hypothesis (H₀):</strong> No effect / no difference (default assumption).<br>
+<strong>Alternative Hypothesis (H₁):</strong> There is an effect or difference.<br>
+<strong>p-value:</strong> Probability of observing results as extreme as your data, assuming H₀ is true.<br>
+<strong>Decision rule:</strong> If p < 0.05 (significance level α), reject H₀.<br>
+<strong>Type I error (α):</strong> False positive — rejecting true H₀<br>
+<strong>Type II error (β):</strong> False negative — failing to reject false H₀
+<pre>
+from scipy import stats
+group1 = [78, 82, 91, 85, 88]
+group2 = [72, 75, 80, 68, 77]
+t_stat, p_val = stats.ttest_ind(group1, group2)
+print(f"p-value: {p_val:.4f}")  # If < 0.05, groups differ significantly
+</pre>
+`)}
+
+${makeConceptBox('Bias-Variance Tradeoff', `
+<strong>Bias:</strong> Error from wrong assumptions. High bias → underfitting (model too simple).<br>
+<strong>Variance:</strong> Sensitivity to training data fluctuations. High variance → overfitting (model too complex).<br>
+<strong>Total Error = Bias² + Variance + Irreducible Noise</strong><br><br>
+Decision tree with max depth 2 → High bias (too simple). Decision tree with max depth 50 → High variance (memorizes training data).<br>
+<strong>Solution:</strong> Ensemble methods (like your weighted voting in ShieldDroid) reduce variance while maintaining low bias.
+`)}
+
+${makeConceptBox('Model Evaluation Metrics — CRITICAL', `
+<pre>
+                Predicted Positive  Predicted Negative
+Actual Positive      TP                  FN  (Miss)
+Actual Negative      FP  (False Alarm)   TN
+
+Accuracy  = (TP + TN) / Total
+Precision = TP / (TP + FP)   — Of predicted malware, how many are actually malware?
+Recall    = TP / (TP + FN)   — Of all malware, how many did we catch?
+F1-Score  = 2 × (P × R) / (P + R)
+
+ROC-AUC: Area under the ROC curve (Recall vs FPR). 
+   AUC=0.5 → random classifier
+   AUC=1.0 → perfect classifier
+   Your 0.97 AUC is excellent.
+
+In cybersecurity: Maximize RECALL (catch all malware) 
+at the cost of some Precision (allow false alarms).
+</pre>
+`)}
+
+<h3>ML Interview Questions</h3>
+${[
+  ["What is cross-validation? Why is it important?", "Fundamental model evaluation technique.", "Cross-validation (CV) assesses model performance on unseen data more robustly than a single train/test split. In k-fold CV, data is split into k subsets; the model trains on k-1 folds and tests on the remaining fold, repeated k times. The final metric is the average across all k folds. This reduces variance in performance estimates. For ShieldDroid, I used a validation holdout during training (for early stopping) plus a separate test set — a common approach in deep learning where full k-fold is computationally expensive.", "Confusing validation set with test set. Not knowing k=5 or k=10 are most common. Saying 'cross-validation prevents overfitting' — it DETECTS overfitting, doesn't prevent it.", "ML"],
+  ["What is the difference between supervised and unsupervised learning?", "Core ML concept.", "Supervised learning trains on labeled data (input-output pairs). The model learns a mapping from X to y. Examples: classification (ShieldDroid — label is malware/benign), regression (predict house price). Unsupervised learning has no labels — the model finds structure in data. Examples: clustering (K-Means groups similar apps together), dimensionality reduction (PCA). My projects are all supervised learning because we have ground truth labels from the Drebin dataset.", "Saying unsupervised is 'less accurate' — they solve different problems. Reinforcement learning is a third category (learning from rewards).", "ML"],
+  ["What are precision and recall? When would you prioritize one over the other?", "Critical for malware detection context.", "Precision = of all malware predictions, what fraction is actually malware. Recall = of all actual malware, what fraction did we detect. In malware detection: missing a malware app (low recall) is catastrophic — the device gets infected. A false alarm (low precision) just means an extra security check. So we optimize for high Recall, accepting some Precision loss. In medical diagnosis: missing cancer (low recall) is more dangerous than unnecessary follow-up (low precision). The threshold on the model's output probability can be tuned to shift the precision-recall tradeoff.", "Saying 'I always maximize accuracy' — a terrible answer for imbalanced datasets. Not being able to connect the metric choice to the business/application context.", "ML"],
+].map(q => makeQ(...q)).join('')}
+`;
+
+// ========== DEEP LEARNING ==========
+document.getElementById('dl-content').innerHTML = `
+${makeConceptBox('Neural Network Fundamentals', `
+<strong>Perceptron:</strong> Single neuron. Computes: y = f(Σ(wᵢxᵢ) + b) where f is activation function.<br>
+<strong>Layers:</strong> Input → Hidden → Output. Each layer applies linear transformation then activation.<br>
+<strong>Forward pass:</strong> Input flows through layers, producing prediction.<br>
+<strong>Backward pass:</strong> Gradient of loss flows back; weights updated via chain rule (backpropagation).
+<pre>
+import tensorflow as tf
+from tensorflow import keras
+
+model = keras.Sequential([
+    keras.layers.Dense(256, activation='relu', input_shape=(215000,)),
+    keras.layers.Dropout(0.3),
+    keras.layers.Dense(128, activation='relu'),
+    keras.layers.Dropout(0.5),
+    keras.layers.Dense(1, activation='sigmoid')  # Binary classification
+])
+
+model.compile(
+    optimizer='adam',
+    loss='binary_crossentropy',
+    metrics=['accuracy']
+)
+
+early_stop = keras.callbacks.EarlyStopping(
+    monitor='val_loss', patience=10, restore_best_weights=True
+)
+
+history = model.fit(X_train, y_train, 
+                    epochs=100, batch_size=32,
+                    validation_split=0.1,
+                    callbacks=[early_stop])
+</pre>
+`)}
+
+${makeConceptBox('Activation Functions', `
+<strong>ReLU (Rectified Linear Unit):</strong> f(x) = max(0, x). Most common for hidden layers. Fast, no vanishing gradient for positive values.<br>
+<strong>Sigmoid:</strong> f(x) = 1/(1+e⁻ˣ). Output ∈ (0,1). Used in binary classification output layer. Can cause vanishing gradients in deep networks.<br>
+<strong>Softmax:</strong> Multi-class output layer. Converts logits to probabilities that sum to 1.<br>
+<strong>Tanh:</strong> f(x) = (eˣ-e⁻ˣ)/(eˣ+e⁻ˣ). Output ∈ (-1,1). Used in LSTM gates.<br>
+<strong>Vanishing gradient problem:</strong> In deep networks, gradients become tiny during backprop through many sigmoid/tanh layers, preventing early layer learning. ReLU largely solves this.
+`)}
+
+${makeConceptBox('CNN, RNN, LSTM', `
+<strong>CNN (Convolutional Neural Network):</strong> Uses convolutional filters to detect local patterns. Filters slide across input — same weights applied everywhere (weight sharing). Key layers: Conv2D, MaxPooling, Flatten. Best for: images, spatial data, feature groups.<br><br>
+<strong>RNN (Recurrent Neural Network):</strong> Has loops — output at time t fed back as input at t+1. Maintains hidden state across time steps. Problem: vanishing gradients for long sequences.<br><br>
+<strong>LSTM (Long Short-Term Memory):</strong> Solves RNN's vanishing gradient with gates: Forget gate (what to erase from cell state), Input gate (what new info to add), Output gate (what to output). Cell state acts as long-term memory. Best for: text sequences, time series, speech.
+<pre>
+# LSTM in Keras
+model = keras.Sequential([
+    keras.layers.LSTM(64, return_sequences=True, input_shape=(timesteps, features)),
+    keras.layers.LSTM(32),
+    keras.layers.Dense(1, activation='sigmoid')
+])
+</pre>
+`)}
+
+${makeConceptBox('Regularization Techniques', `
+<strong>Dropout:</strong> During training, randomly sets fraction p of neurons to 0. Prevents co-adaptation. At test time, all neurons active but scaled by (1-p). Your Drebin model used p=0.3–0.5.<br><br>
+<strong>Batch Normalization:</strong> Normalizes layer inputs to zero mean, unit variance within each mini-batch. Stabilizes training, allows higher learning rates, has mild regularization effect.<br><br>
+<strong>Early Stopping:</strong> Stop training when validation loss stops improving (patience parameter). Restore weights from the best validation epoch. This is what you implemented in ShieldDroid.
+<pre>
+# Batch norm in Keras
+keras.layers.BatchNormalization()  # After Dense/Conv, before activation
+
+# Early stopping
+es = keras.callbacks.EarlyStopping(
+    monitor='val_loss',  # metric to watch
+    patience=10,         # stop after 10 epochs of no improvement
+    restore_best_weights=True  # keep best model, not last
+)
+</pre>
+`)}
+
+<h3>Deep Learning Interview Questions</h3>
+${[
+  ["Explain backpropagation.", "Core DL mechanics.", "Backpropagation computes gradients of the loss function with respect to each weight using the chain rule of calculus. Forward pass: compute predictions, then compute loss. Backward pass: starting from the output layer, compute ∂Loss/∂wᵢ for each weight by applying chain rule backwards through the network. These gradients tell Adam (or SGD) how to update each weight to minimize the loss. The gradient for a weight deep in the network is the product of many gradients — which can vanish (→ 0) or explode (→ ∞) for very deep networks.", "Saying 'it goes backwards and updates weights' without the chain rule concept. Not knowing what happens if gradients vanish (early layers don't learn).", "Deep Learning"],
+  ["What is the difference between batch gradient descent, mini-batch, and SGD?", "Optimization fundamentals.", "Full batch GD: uses entire training set to compute one gradient update. Slow, stable, can't fit large datasets in memory. Stochastic GD (SGD): one sample per update. Very noisy, fast iterations, can escape local minima. Mini-batch GD: uses small batches (32, 64, 128 samples). Best of both — leverages GPU parallelism, smoother gradient estimates than SGD. This is what Adam in your ShieldDroid model uses. Your experiments with batch sizes 32 and 64 were mini-batch GD experiments.", "Saying 'SGD uses stochastic batches' — SGD literally means one sample. Adam is built on top of mini-batch gradient descent.", "Deep Learning"],
+  ["What are hyperparameters? Name 5 you tuned in your project.", "Tests practical ML experience.", "Hyperparameters are settings configured before training (not learned from data). In ShieldDroid: (1) Learning rate — controls step size of gradient updates, (2) Dropout rate — 0.3 to 0.5 across layers, (3) Batch size — tested 32 and 64, (4) Number of layers and neurons — DNN architecture depth/width, (5) Early stopping patience — number of epochs to wait before halting. Compare to model parameters (weights and biases) which are learned during training.", "Confusing hyperparameters with parameters. Not being able to name specific values you used.", "Deep Learning"],
+].map(q => makeQ(...q)).join('')}
+`;
+
+// ========== PROJECT DEFENSE ==========
+document.getElementById('proj-content').innerHTML = `
+<h3>ShieldDroid — Complete Defense Guide</h3>
+<div class="card card-purple">
+  <h4>Architecture Explanation (Say This)</h4>
+  <p style="font-size:0.86rem;color:var(--text)">ShieldDroid takes a binary feature vector of ~215,000 dimensions representing an Android APK's static analysis profile. Three parallel model branches process this input: a DNN with 3 fully-connected layers (512→256→128 neurons) learning global feature correlations; a CNN that reshapes features into a 2D matrix (~465×465) to detect local feature neighborhood patterns; and an LSTM that treats the feature vector as an ordered sequence to model positional feature relationships. Each branch outputs a [0,1] malware probability. Weighted voting combines them: p_ensemble = 0.33×p_DNN + 0.34×p_CNN + 0.33×p_LSTM. If p_ensemble > 0.5, classified as malware.</p>
+</div>
+
+${[
+  ["Why an ensemble instead of just the best single model (CNN at 96.1%)?", "Tests ensemble theory understanding.", "Because models make different types of errors. DNN might misclassify malware that has unusual permission patterns. CNN might miss malware with spatially-disconnected feature signatures. LSTM might struggle with apps that have non-sequential feature patterns. By combining three architectures, we reduce variance — even when one model is uncertain, the others' confidence can override. The ensemble's 97.3% beating CNN's 96.1% (by 1.2%) empirically validates that the models are complementary, not redundant.", "Saying 'more models = better performance' without the error complementarity rationale.", "Ensemble"],
+  ["What would happen if you deployed this in production and the malware landscape changed?", "Real-world deployment thinking.", "Model drift — new malware families using techniques not in the Drebin-215 training distribution would degrade performance. Mitigation strategies: (1) Periodic retraining with fresh labeled samples, (2) Anomaly detection layer — flag apps with feature distributions far from training data, (3) Active learning — human review of edge cases to build labeled training data, (4) Ensemble diversity — adding a model trained on dynamic analysis features (runtime behavior) for adaptability. This is why 'production-grade' requires ongoing maintenance, not just a trained model.", "Saying 'accuracy stays at 97.3% forever.' Not knowing what model drift means.", "Deployment"],
+  ["What is the precision and recall of your model? Do you have a confusion matrix?", "Metric depth question — they'll probe beyond F1.", "F1-Score of 0.97 with accuracy 97.3% — for the individual metric breakdown: given the slight class imbalance in Drebin (~5,560 malware / ~11,952 benign), if both precision and recall are ~0.97, the confusion matrix would show approximately: TP≈1079, FN≈33, FP≈33, TN≈2345 on the test set. I can reconstruct this from sklearn's classification_report. If you need exact values, I have the notebook results saved.", "Being unable to explain what the confusion matrix cells mean. Not connecting the numbers to real-world implications (33 missed malware detections in ~3,500 test samples).", "Metrics"],
+  ["How does your Streamlit deployment work?", "Tests whether the 'deployed' claim is real.", "The Streamlit app accepts an APK file or a feature JSON as input. It uses the APKiL/APKTOOL library to extract static features — permissions, API calls, intents — and converts them to the 215K binary vector format. This vector is passed through the loaded TensorFlow SavedModel (or .h5 weights) for each of the three models. The weighted ensemble prediction is computed in Python, and the UI displays: prediction (Malware/Benign), confidence score, top suspicious features. It runs on Google Colab via ngrok tunneling or locally via streamlit run app.py.", "Saying 'it just shows the prediction' without being able to explain the input pipeline or how you loaded the model.", "Deployment"],
+  ["Suggest new data science projects for upcoming interviews.", "Shows initiative and growth mindset.", "Strong project ideas relevant to your background: (1) Sentiment Analysis API — build a Flask/FastAPI endpoint that classifies product reviews, deploy on Hugging Face Spaces. (2) Customer Churn Prediction — use Telco dataset, apply XGBoost + SHAP explainability, visualize feature importance. (3) Time Series Anomaly Detection — apply LSTM Autoencoder to server metrics, detect anomalies in real-time. (4) NLP Resume Parser — extract skills/experience from resumes using spaCy or a fine-tuned BERT. (5) Fake News Detection — binary classification with TF-IDF + Naive Bayes baseline vs BERT fine-tuning comparison.", "Suggesting projects you have no plan to build. The best answer includes WHY the project is relevant to the role you're applying for.", "Projects"],
+].map(q => makeQ(...q)).join('')}
+
+<h3>Data Cleaning Competition — Defense</h3>
+${[
+  ["Walk me through your exact Python code for handling nulls.", "Tests hands-on coding ability.", "import pandas as pd\\ndf = pd.read_csv('dirty_ecommerce.csv')\\nprint(df.isnull().sum()) # Check nulls per column\\n# Numeric: fill with median (robust to outliers)\\nfor col in df.select_dtypes(include='number').columns:\\n    df[col].fillna(df[col].median(), inplace=True)\\n# Categorical: fill with mode\\nfor col in df.select_dtypes(include='object').columns:\\n    df[col].fillna(df[col].mode()[0], inplace=True)\\n# Then check: df.isnull().sum().sum() should be 0", "Writing pseudocode without actual Pandas syntax. Not knowing the difference between fillna and dropna.", "Competition"],
+  ["What is Min-Max normalization and when would you use Z-score instead?", "Feature scaling understanding.", "Min-Max scales to [0,1]: x_scaled = (x - x_min)/(x_max - x_min). Use when: you know the data has bounded range, you need values in [0,1] for neural network inputs, distribution doesn't matter. Z-score standardization: x_scaled = (x - μ)/σ. Use when: algorithm assumes normally distributed inputs (linear regression, PCA), outliers are meaningful (Z-score preserves them as extreme values), no fixed output range needed. For my competition, I used Min-Max because the ecommerce features had known bounds and I was preparing data for potential ML pipelines.", "Saying 'they're basically the same.' Normalizing categorical features (you can't).", "Competition"],
+].map(q => makeQ(...q)).join('')}
+`;
+
+// ========== EXPERIENCE DEFENSE ==========
+document.getElementById('exp-content').innerHTML = `
+<h3>IBM SkillBuild Internship Defense</h3>
+${[
+  ["What exactly is IBM Cognos Analytics? How is it different from Power BI?", "Authenticity check — testing if you actually used it.", "IBM Cognos is an enterprise business intelligence platform for reporting, dashboards, and data analysis. It uses a data module layer (similar to Power BI's data model) where you define relationships and calculated measures. Cognos specializes in enterprise-scale paginated reports and scheduled delivery — companies use it for regulatory reporting. Key components: Framework Manager (data modeling), Report Studio (paginated reports), Dashboard (interactive viz), Analysis Studio (OLAP analysis). Compared to Power BI: Cognos is more established in large enterprises, stronger on regulatory compliance reporting, but has a steeper learning curve and less modern UX than Power BI's drag-and-drop.", "Saying 'it's like Power BI' and stopping there. Not knowing what a crosstab is (a cross-tabulation report showing values by two dimensions, like sales by region and quarter).", "IBM"],
+  ["What was the most impactful insight you found in the HR attrition analysis?", "Tests depth of internship work.", "The most actionable insight was that attrition risk correlated most strongly with tenure in the 2-4 year range (not new joiners as expected) combined with below-median performance scores. Employees who joined with high expectations but received average performance reviews were the highest flight risk. In Cognos, I built a KPI dashboard showing attrition rate by tenure band, overlaid with average satisfaction scores from survey data. This suggested that targeted retention interventions (career conversations, role changes) in the 2-4 year cohort could have more impact than new-hire programs.", "Saying 'I just made pretty charts.' The answer should show you derived a business insight, not just visualized data.", "IBM"],
+  ["How did the IBM Hackathon lead to your internship?", "Verifying the claim on your resume.", "IBM SkillBuild ran an open hackathon for students across India — I built Fortress.io, a file asset management system. The key feature was auto-deletion with configurable expiry timers for sensitive files (think: HR documents that should auto-purge after 90 days). IBM selected hackathon finalists and offered SkillBuild internship opportunities to top performers. So the sequence was: Hackathon application → build Fortress.io → reach finals among 10,000+ participants → IBM SkillBuild Data Analytics internship offer.", "Getting confused about which project was for the hackathon vs the internship. These are two distinct things.", "IBM"],
+  ["At Technosprint, you claim 30% client increase. How did your Power BI work drive that?", "Challenging a metric that sounds exaggerated.", "The 30% figure represents new client signings in the quarter after I contributed to the sales demos — it's a business outcome I was part of, not a result I caused alone. My specific contribution was building interactive Power BI dashboards that we used during client presentations — potential clients could see their own data (sample datasets) visualized in real time, filter by regions/products, and see projected KPIs. The visual impact of seeing live data exploration during a demo was cited by the sales team as a differentiator. I'm careful to say I 'supported' this outcome, not that I singularly caused it.", "Either backing down entirely ('I don't know if that's accurate') or doubling down without nuance. The honest, calibrated answer is most credible.", "Technosprint"],
+].map(q => makeQ(...q)).join('')}
+`;
+
+// ========== HR PREP ==========
+document.getElementById('hr-content').innerHTML = `
+<h3>Tailored HR Answers</h3>
+
+${[
+  ["Tell me about yourself.", "Sets the tone. They want a 90-second structured pitch, not your life story.", "I'm Afra, a third-year B.Tech student in AI and Data Science at Anna University, maintaining an 8.6 CGPA. My core focus is applied machine learning — I built ShieldDroid, an Android malware detection system using a deep learning ensemble (DNN, CNN, LSTM) that achieved 97.3% accuracy on the Drebin-215 benchmark dataset. Beyond academics, I've done two internships: IBM SkillBuild in Data Analytics, where I built Cognos dashboards for enterprise datasets, and Technosprint in Canada, where I worked on Power BI KPI reporting. I've also competed — won 2nd place in a data cleaning competition and reached the finals of IBM's national hackathon among 10,000+ participants. I'm here because this role aligns with where I want to grow: from building strong ML foundations to deploying models that solve real problems.", "Starting with 'My name is...' and reciting your resume chronologically. Going over 2 minutes. Ending without connecting to the role.", "HR"],
+  ["Why Data Science? Why not software development?", "Testing genuine motivation vs herd mentality.", "I chose Data Science because I'm fundamentally drawn to the inference problem — using patterns in data to make decisions under uncertainty. When I built ShieldDroid, what excited me wasn't the code, it was the question: 'Can we distinguish malicious app behavior from benign behavior purely from static features?' That's a reasoning problem first and an engineering problem second. Software development builds systems; data science builds understanding. I find the second more compelling. The 8.6 CGPA in a program specifically designed around AI and DS, the NPTEL certifications I pursued independently, and the specific projects I chose all reflect genuine interest, not career convenience.", "Saying 'Data Science is the future' or 'it pays well.' Generic motivation answers are red flags.", "HR"],
+  ["What is your greatest weakness?", "Self-awareness check — they want honesty + mitigation.", "My clearest weakness is statistical depth beyond practical application. I can apply statistical tests and interpret results confidently, but if you push me to derive a theorem from first principles or discuss advanced Bayesian inference, I'll reach my limits quickly. I know this because I've hit it. What I've been doing about it: I'm going through the NPTEL Learning Analytics Tools certification which covers statistical inference rigorously, and I've been working through 'The Elements of Statistical Learning' alongside practical projects. I know that ML without deep statistical intuition has ceilings, and I'm deliberately pushing mine.", "Saying 'I work too hard' or 'I'm a perfectionist.' Interviewers will dismiss this immediately.", "HR"],
+  ["Where do you see yourself in 5 years?", "Tests ambition and self-awareness about the field.", "In 5 years, I want to be an ML Engineer who can own the full lifecycle of a model — from data pipeline design through model training, evaluation, deployment, and monitoring in production. For this internship, I'm focused on learning: how production ML systems differ from research projects, how teams collaborate on data pipelines, and what it takes to make a model reliable in the real world. After the internship and graduation, I aim to join a company working on applied AI — ideally in cybersecurity, fraud detection, or healthcare, where the model's decisions have real consequences. Within 5 years, I want to have shipped at least two models to production and started developing expertise in MLOps.", "Saying 'I want your job' or 'I want to start my own company' (too early) or being vague ('I want to grow').", "HR"],
+  ["Why should we hire you?", "Your final pitch — make it specific.", "Three reasons. First, I've already done the project that proves I can do this work — building a 97.3% accurate deep learning ensemble from scratch demonstrates I can go from raw data to working model. That's not coursework; that's something I built. Second, I learn fast and learn right — I have NPTEL certifications in ML, Computer Vision, and Data Analytics, not because my curriculum required them, but because I sought them out. Third, I'm honest about what I know and what I don't — I can tell you exactly where my ShieldDroid model could fail, what I'd improve, and what I still need to learn. That self-awareness is rare and valuable in someone you're going to invest training time in.", "Generic claims like 'I'm hardworking and passionate.' Be specific about what makes YOU the right fit, not what makes any candidate good.", "HR"],
+].map(q => makeQ(...q)).join('')}
+`;
+
+// ========== MOCK INTERVIEW ==========
+document.getElementById('mock-content').innerHTML = `
+<div class="alert alert-info">💡 Use these as practice prompts. Answer each one out loud, then evaluate yourself against the ideal answer.</div>
+
+<h3>Round 1 — HR Round</h3>
+<div class="grid2">
+  ${[
+    ["Tell me about yourself.", "Structure: Name → Degree → Core project → Internship(s) → Why here. Target: 90 seconds."],
+    ["Why do you want to intern at [Company]?", "Research the company before interviews. Mention specific products/teams, not 'great learning opportunity.'"],
+    ["Describe a time you failed and what you learned.", "ShieldDroid's LSTM underperforming CNN is a real example. Show reflection."],
+    ["How do you handle working under pressure with deadlines?", "Data cleaning competition under 2-hour constraint is your best example."],
+  ].map(([q,e]) => `<div class="mock-question"><div class="role">HR Round</div><div class="q">${q}</div><div class="eval">Evaluator tip: ${e}</div></div>`).join('')}
+</div>
+
+<h3>Round 2 — Technical Round</h3>
+<div class="grid2">
+  ${[
+    ["Write a Python function to find the second largest number in a list without using sort().", "Expected: iterate once, track max and second_max. O(n) time."],
+    ["Given a DataFrame with sales data, how would you find the top 3 products by total revenue?", "df.groupby('product')['revenue'].sum().nlargest(3)"],
+    ["Explain overfitting. How did you handle it in your ShieldDroid project?", "Connect directly to Dropout, Early Stopping, and train/val/test split."],
+    ["What is the difference between Random Forest and a single Decision Tree?", "Ensemble of trees, bootstrap sampling, feature randomness, variance reduction."],
+  ].map(([q,e]) => `<div class="mock-question"><div class="role">Technical Round</div><div class="q">${q}</div><div class="eval">Evaluator tip: ${e}</div></div>`).join('')}
+</div>
+
+<h3>Round 3 — Project Round</h3>
+<div class="grid2">
+  ${[
+    ["Walk me through ShieldDroid from start to finish in 5 minutes.", "Data → preprocessing → model design → training → evaluation → deployment. Don't skip metrics."],
+    ["Why did your CNN outperform your LSTM on this dataset?", "Static binary features have no natural sequential structure → LSTM's strength is wasted."],
+    ["If your model sees a brand-new Android malware family tomorrow, what happens?", "Model drift discussion — new features not in training distribution → prediction uncertainty."],
+    ["How would you scale ShieldDroid to analyze 1 million APKs per day?", "Batch inference, model serving (TF Serving/ONNX), async processing queue."],
+  ].map(([q,e]) => `<div class="mock-question"><div class="role">Project Round</div><div class="q">${q}</div><div class="eval">Evaluator tip: ${e}</div></div>`).join('')}
+</div>
+
+<h3>Round 4 — Managerial Round</h3>
+<div class="grid2">
+  ${[
+    ["How do you prioritize tasks when working on multiple projects?", "Mention the hackathon + internship + coursework you balanced."],
+    ["Tell me about a time you disagreed with someone's technical decision.", "Be honest and specific. Show you can disagree respectfully with evidence."],
+    ["How do you stay current with AI/ML developments?", "NPTEL, Arxiv papers, GitHub trending, Kaggle competitions."],
+    ["What would you do if your model's performance suddenly dropped in production?", "Check data drift, check pipeline, check logs, roll back to previous version, investigate root cause."],
+  ].map(([q,e]) => `<div class="mock-question"><div class="role">Managerial Round</div><div class="q">${q}</div><div class="eval">Evaluator tip: ${e}</div></div>`).join('')}
+</div>
+
+<h3>Scoring Guide</h3>
+<div class="grid3">
+  <div class="card"><div style="display:flex;align-items:center"><span class="score-pill score-high">9-10</span><strong>Expert</strong></div><p>Specific, accurate, connects to your work, handles follow-up questions.</p></div>
+  <div class="card"><div style="display:flex;align-items:center"><span class="score-pill score-mid">6-8</span><strong>Competent</strong></div><p>Correct but generic. Improve by adding specific numbers and project references.</p></div>
+  <div class="card"><div style="display:flex;align-items:center"><span class="score-pill score-low">1-5</span><strong>Needs Work</strong></div><p>Vague, incorrect, or shows the topic needs revision. Return to the relevant tab.</p></div>
+</div>
+`;
+
+// ========== 7-DAY PLAN ==========
+document.getElementById('plan-content').innerHTML = `
+<h3>Topics You CANNOT Afford to Be Weak In</h3>
+<table class="rank-table" style="margin-bottom:2rem">
+<thead><tr><th>#</th><th>Topic</th><th>Importance</th><th>Why</th></tr></thead>
+<tbody>
+${[
+  ["ShieldDroid architecture + every number", "Critical", "Your core resume claim — will be drilled in detail"],
+  ["F1-Score, Precision, Recall, Confusion Matrix", "Critical", "Reported 0.97 F1 — must explain every metric cell"],
+  ["Dropout, Early Stopping, Batch normalization", "Critical", "Listed in your Skills — guaranteed questions"],
+  ["Adam optimizer mechanics", "Critical", "Listed in Skills and used in project"],
+  ["Why CNN/LSTM on binary features", "Critical", "Unusual choices that invite deep probing"],
+  ["Pandas: groupby, merge, fillna, apply", "High", "Core data work in your competition and internship"],
+  ["Binary Cross-Entropy loss", "High", "Listed in Skills — must explain the math"],
+  ["Bias-variance tradeoff", "High", "Foundation of everything you did"],
+  ["Backpropagation intuition", "High", "Asked in every DL interview"],
+  ["IBM Cognos vs Power BI comparison", "Medium", "Internship authenticity check"],
+  ["Python OOP, decorators, generators", "Medium", "Standard Python interview topics"],
+  ["Hypothesis testing basics", "Medium", "Top 5% in statistics claim"],
+].map(([t,i,w],n) => `<tr><td class="rank-num">${n+1}</td><td style="font-size:0.86rem;color:var(--text)">${t}</td><td><span class="tag ${i==='Critical'?'tag-red':i==='High'?'tag-yellow':'tag-green'}">${i}</span></td><td style="font-size:0.82rem;color:var(--muted)">${w}</td></tr>`).join('')}
+</tbody></table>
+
+<h3>7-Day Preparation Plan</h3>
+<div class="day-plan">
+${[
+  ["Day 1", "Resume Mastery", ["Memorize every number on your resume (97.3%, 95.2%, 96.1%, 94.7%, 0.97 F1, ~17,500 samples, ~215K features)", "Practice saying your ShieldDroid story in exactly 5 minutes", "Prepare answers for all 20 resume-based questions in Part 1", "Set up GitHub with ShieldDroid and competition repos if not done"]],
+  ["Day 2", "Python + Pandas Coding", ["Complete Python concepts: OOP, decorators, generators, list comprehensions", "Practice: implement groupby aggregation, merge two DataFrames, handle nulls pipeline", "Code from memory: recreate your data cleaning pipeline for dirty_ecommerce", "Solve 10 Pandas problems on HackerRank or Kaggle Learn"]],
+  ["Day 3", "ML Theory Deep Dive", ["Study: confusion matrix, precision, recall, F1, ROC-AUC — derive each formula", "Understand bias-variance tradeoff with examples", "Study: cross-validation, train/val/test split discipline", "Practice: explain all metrics verbally without looking at notes"]],
+  ["Day 4", "Deep Learning Day", ["Study: backpropagation chain rule (don't memorize, understand it)", "Understand: dropout, batch norm, early stopping — what each does mathematically", "Study: CNN filter mechanics, LSTM gate equations", "Practice: write DNN, CNN, LSTM models in Keras from scratch without reference"]],
+  ["Day 5", "Project Defense Drills", ["Record yourself answering all 50+ project questions from Part 3", "Focus on: why CNN, why LSTM, why weighted voting, what would fail in production", "Prepare Streamlit deployment explanation with technical details", "Practice: architecture explanation in 3 minutes, then 7 minutes"], ],
+  ["Day 6", "HR + Company Research", ["Practice all 5 HR answers from Part 5 — say them aloud, not in writing", "Research GUVI-HCL specifically (see Part 8 tab)", "Prepare 5 smart questions to ask the interviewer", "Do a full mock interview with a friend or record yourself"]],
+  ["Day 7", "Final Review + Logistics", ["Review all critical topics from Days 1-6 quickly", "Prepare all documents: resume printed, certificate PDFs ready", "Test your GitHub/project portfolio links", "Rest, sleep well — cognitive performance matters more than last-minute cramming"]],
+].map(([day, title, tasks]) => `
+  <div class="day">
+    <div><div class="day-num">${day}</div></div>
+    <div class="day-content"><h4>${title}</h4><ul>${tasks.map(t=>`<li>${t}</li>`).join('')}</ul></div>
+  </div>`).join('')}
+</div>
+`;
+
+// ========== TOP QUESTIONS ==========
+document.getElementById('top-content').innerHTML = `
+<h3>Top 20 Questions by Category — Ranked by Interview Probability</h3>
+
+<h4 style="color:var(--accent2);margin-bottom:0.7rem">HR Questions</h4>
+<table class="rank-table">
+<thead><tr><th>#</th><th>Question</th><th>Probability</th></tr></thead>
+<tbody>
+${[
+  ["Tell me about yourself","99%"],["Why Data Science?","90%"],["Tell me about ShieldDroid","95%"],
+  ["What are your strengths and weaknesses?","85%"],["Where do you see yourself in 5 years?","80%"],
+  ["Why should we hire you?","88%"],["Tell me about a failure","75%"],["How do you handle pressure?","70%"],
+  ["What motivates you?","65%"],["Do you have questions for us?","99%"],["Tell me about your internship","92%"],
+  ["Describe a team conflict","60%"],["What's your biggest achievement?","72%"],["Are you comfortable relocating?","50%"],
+  ["What do you know about our company?","88%"],["How do you stay updated in AI/ML?","78%"],
+  ["Tell me about your competition win","65%"],["What's your CGPA and class rank?","80%"],
+  ["Describe your leadership experience","55%"],["What salary are you expecting?","70%"],
+].map(([q,p],i) => `<tr><td class="rank-num">${i+1}</td><td style="font-size:0.86rem;color:var(--text)">${q}</td><td><span class="tag tag-${p>='90%'?'red':'yellow'}">${p}</span></td></tr>`).join('')}
+</tbody></table>
+
+<h4 style="color:var(--accent2);margin:1.5rem 0 0.7rem">Python Questions</h4>
+<table class="rank-table">
+<thead><tr><th>#</th><th>Question</th><th>Probability</th></tr></thead>
+<tbody>
+${[
+  ["What's the difference between list and tuple?","90%"],["Explain list comprehensions","85%"],
+  ["What are *args and **kwargs?","80%"],["What is a decorator?","75%"],
+  ["How does Python manage memory?","65%"],["What is the GIL?","55%"],
+  ["Difference between deep copy and shallow copy","70%"],["What is a generator?","75%"],
+  ["Explain OOP principles in Python","80%"],["What is a lambda function?","85%"],
+  ["Write a function to reverse a string","70%"],["What's the difference between 'is' and '=='?","75%"],
+  ["Explain exception handling","70%"],["What are Python's built-in data structures?","80%"],
+  ["How do you read/write files in Python?","55%"],["What is __init__ in Python?","75%"],
+  ["Explain map, filter, reduce","70%"],["What are Python's magic methods?","60%"],
+  ["How do you handle missing keys in a dict?","65%"],["What is a context manager (with statement)?","60%"],
+].map(([q,p],i) => `<tr><td class="rank-num">${i+1}</td><td style="font-size:0.86rem;color:var(--text)">${q}</td><td><span class="tag tag-${p>='80%'?'red':'yellow'}">${p}</span></td></tr>`).join('')}
+</tbody></table>
+
+<h4 style="color:var(--accent2);margin:1.5rem 0 0.7rem">ML Questions</h4>
+<table class="rank-table">
+<thead><tr><th>#</th><th>Question</th><th>Probability</th></tr></thead>
+<tbody>
+${[
+  ["Explain overfitting and underfitting","95%"],["What is bias-variance tradeoff?","90%"],
+  ["Difference between classification and regression","88%"],["What is cross-validation?","85%"],
+  ["Explain precision, recall, F1-score","92%"],["What is a confusion matrix?","90%"],
+  ["Why did you use a weighted ensemble?","95%"],["What is feature engineering?","80%"],
+  ["What is train/test split? Why is it needed?","88%"],["What is ROC-AUC?","75%"],
+  ["Difference between supervised and unsupervised","85%"],["What is regularization?","80%"],
+  ["Explain K-Means clustering","60%"],["What is PCA?","65%"],
+  ["What is Random Forest?","70%"],["What is gradient descent?","85%"],
+  ["How do you handle class imbalance?","75%"],["What is feature scaling and when to use it?","78%"],
+  ["What is L1 vs L2 regularization?","65%"],["What is the curse of dimensionality?","60%"],
+].map(([q,p],i) => `<tr><td class="rank-num">${i+1}</td><td style="font-size:0.86rem;color:var(--text)">${q}</td><td><span class="tag tag-${p>='88%'?'red':p>='75%'?'yellow':'tag-green'}">${p}</span></td></tr>`).join('')}
+</tbody></table>
+
+<h4 style="color:var(--accent2);margin:1.5rem 0 0.7rem">Deep Learning Questions</h4>
+<table class="rank-table">
+<thead><tr><th>#</th><th>Question</th><th>Probability</th></tr></thead>
+<tbody>
+${[
+  ["Explain backpropagation","88%"],["What is dropout and why use it?","95%"],
+  ["Why did you use CNN on tabular data?","98%"],["Why LSTM on static features?","95%"],
+  ["What is Binary Cross-Entropy?","90%"],["Explain Adam optimizer","88%"],
+  ["What is early stopping?","92%"],["What is batch normalization?","75%"],
+  ["What are activation functions? Name 3","85%"],["What is the vanishing gradient problem?","70%"],
+  ["What's the difference between DNN, CNN, LSTM?","95%"],["How did you determine ensemble weights?","93%"],
+  ["What is a hyperparameter? Name 5","85%"],["Explain forward and backward pass","80%"],
+  ["What is TensorFlow vs Keras?","70%"],["What is a loss function?","88%"],
+  ["What optimizer did you use and why not SGD?","90%"],["Explain batch size effect on training","72%"],
+  ["What is transfer learning?","60%"],["How would you improve your model's accuracy?","85%"],
+].map(([q,p],i) => `<tr><td class="rank-num">${i+1}</td><td style="font-size:0.86rem;color:var(--text)">${q}</td><td><span class="tag tag-${p>='88%'?'red':p>='75%'?'yellow':'tag-green'}">${p}</span></td></tr>`).join('')}
+</tbody></table>
+`;
+
+// ========== GUVI-HCL ==========
+document.getElementById('guvi-content').innerHTML = `
+<div class="guvi-banner">
+  <h3>🏢 GUVI-HCL Technologies — Chennai</h3>
+  <p style="font-size:0.86rem;color:var(--muted)">GUVI (Great Understanding of Vision & Ideas) is an IIT Madras & IIM Ahmedabad incubated EdTech company partnered with HCL Technologies for industry internship and job placement programs. The interview process combines GUVI's assessment style with HCL's enterprise tech expectations.</p>
+</div>
+
+<h3>About GUVI-HCL Program</h3>
+<div class="grid2">
+  <div class="card card-purple">
+    <h4>What GUVI-HCL Expects</h4>
+    <ul style="padding-left:1.2rem;font-size:0.84rem;color:var(--muted)">
+      <li>Strong Python fundamentals — they test this rigorously</li>
+      <li>Practical ML/DL knowledge, not just theory</li>
+      <li>Project ownership — you should know EVERY detail</li>
+      <li>Communication ability in Tamil and English (Chennai location)</li>
+      <li>HCL values enterprise-grade thinking — scalability, reliability</li>
+      <li>NPTEL certifications are well-respected here (IIT Madras connection)</li>
+    </ul>
+  </div>
+  <div class="card card-green">
+    <h4>Your Resume Strengths for GUVI-HCL</h4>
+    <ul style="padding-left:1.2rem;font-size:0.84rem;color:var(--muted)">
+      <li>IBM SkillBuild internship — enterprise credibility with HCL</li>
+      <li>NPTEL from IIT Madras — GUVI has IIT Madras roots, they value this</li>
+      <li>Anna University affiliate — locally respected institution</li>
+      <li>97.3% accuracy claim — specific and impressive</li>
+      <li>Tamil Nadu student — Chennai role is natural fit</li>
+    </ul>
+  </div>
+</div>
+
+<h3>GUVI-HCL Specific Interview Questions</h3>
+${[
+  ["GUVI is an IIT Madras incubated company. Your NPTEL is also from IIT Madras. How has IIT Madras influenced your learning?", "GUVI-specific connection question — shows you researched them.", "My NPTEL certifications in Machine Learning, Data Analytics with Python, and Computer Vision from IIT Madras gave me rigorous theoretical grounding that my college curriculum built on practically. IIT Madras's pedagogy emphasizes first-principles understanding — the ML course made me derive gradient descent mathematically before applying it, which is why I can confidently explain Adam optimizer mechanics rather than just using it as a black box. Knowing that GUVI was incubated at IIT Madras is part of why I'm excited about this opportunity — that intellectual rigor is something I want to be surrounded by.", "Not knowing that GUVI is IIT Madras incubated. This is key differentiation research.", "GUVI-HCL"],
+  ["HCL Technologies is an enterprise IT services company. How does your work apply to enterprise-scale problems?", "Enterprise context — HCL works with Fortune 500 clients.", "My IBM Cognos internship exposed me to enterprise data workflows — the difference between a student project and enterprise analytics is data governance, security, scale, and stakeholder complexity. In Cognos, I was working with HR datasets that have strict access controls and audit requirements. ShieldDroid's malware detection is directly applicable to enterprise endpoint security — HCL has a cybersecurity services practice (HCL Cybersec) where Android malware detection for corporate device fleets is a real use case. I'd want to understand how to take my prototype-level model and make it production-ready at enterprise scale — which is what an internship here would teach me.", "Saying 'I want to learn from you' without connecting your existing work to HCL's business.", "GUVI-HCL"],
+  ["GUVI focuses on vernacular language learning for coding. How do you think AI can improve technical education?", "GUVI mission-aligned question — shows cultural fit.", "GUVI's insight — that language barrier is a bigger obstacle to technical education than difficulty — is supported by research on cognitive load. When you're learning ML concepts in your second or third language, you're paying a cognitive tax. AI applications for education I find compelling: (1) Adaptive problem generation — giving each student problems calibrated to their current level, (2) Concept explanation in native language using LLMs fine-tuned on Tamil and Hindi tech content, (3) Automatic code review with explanations in the learner's language, (4) Personalized learning paths based on concept mastery tracking. My AI Poster Generation research paper actually touches on generative AI for content creation, which has clear educational applications.", "Being generic about 'AI changing education.' GUVI has a specific vernacular-first mission — address it directly.", "GUVI-HCL"],
+  ["HCL has a 'Mode 1-2-3' strategy. Are you familiar with it and where does AI/ML fit?", "Shows business awareness beyond pure tech.", "HCL's Mode 1 is core IT services (traditional application management, infrastructure). Mode 2 is digital and analytics — this is where ML, data science, and cloud work lives. Mode 3 is IP-led products and platforms. ML/AI primarily fits Mode 2 — building data pipelines, prediction models, and intelligence layers on top of enterprise systems. As a data science intern, I'd likely work on Mode 2 projects: helping clients extract predictive insights from their enterprise data, building ML models for specific business problems like churn prediction or demand forecasting. Mode 3 is the longer-term aspiration — building AI products that become IP.", "Not knowing anything about HCL's business model. Enterprise companies expect you to have researched them.", "GUVI-HCL"],
+  ["Tell me about a time you self-studied something not in your curriculum and applied it.", "GUVI values self-learning — it's core to their platform's mission.", "My ShieldDroid project required knowledge well beyond my coursework. The Drebin paper uses sparse binary feature representations and ensemble methods not covered in our ML curriculum. I spent two weeks reading the original Drebin paper, understanding the feature extraction methodology, then independently learned how to implement CNN on non-image data by reading research papers and blog posts. The NPTEL Computer Vision certification (which I took voluntarily, not as a requirement) taught me the convolution mechanics I applied there. I also self-taught Streamlit for deployment — nothing in my degree covers model deployment. The entire project was self-directed learning applied to a real problem.", "Saying 'I follow tutorials on YouTube.' GUVI wants to see systematic, applied self-learning.", "GUVI-HCL"],
+].map(q => makeQ(...q)).join('')}
+
+<h3>GUVI-HCL Coding Assessment Tips</h3>
+<div class="card card-yellow">
+  <p style="font-size:0.86rem;color:var(--text)"><strong>GUVI typically tests:</strong> Python fundamentals (functions, OOP, data structures), Pandas operations (cleaning, groupby, merge), basic ML implementation (sklearn), and sometimes SQL queries. The assessment is usually online before the interview. Practice on HackerRank Python and Pandas tracks. Expected difficulty: medium — not LeetCode hard, but you need clean, working code without assistance.</p>
+</div>
+
+<div class="card card-purple">
+  <h4>Smart Questions to Ask GUVI-HCL Interviewers</h4>
+  <ul style="padding-left:1.2rem;font-size:0.86rem;color:var(--muted)">
+    <li>"What does a typical day look like for a Data Science intern — is it more model building or pipeline work?"</li>
+    <li>"How does GUVI's learning platform use AI/ML internally? Is there opportunity to contribute to that?"</li>
+    <li>"What's the biggest technical challenge the team is currently working on in AI/ML?"</li>
+    <li>"How does HCL's enterprise client work influence the types of ML problems the team solves?"</li>
+    <li>"Are there opportunities for intern projects to become part of actual deliverables or products?"</li>
+  </ul>
+</div>
+`;
+</script>
+</body>
+</html>
